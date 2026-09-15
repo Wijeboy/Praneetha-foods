@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ═══════════════════════════════════════════════════════════
+         META & SEO
+         ═══════════════════════════════════════════════════════════ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praneetha Foods — Traditional Sri Lankan Restaurant | Spicy Taste</title>
+    <meta name="description" content="Experience authentic Sri Lankan village-style cuisine at Praneetha Foods. Spicy, traditional flavours crafted with fire and passion. Order online for delivery.">
+    <meta name="theme-color" content="#050505">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpeg">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         GOOGLE FONTS — Playfair Display SC (Headings) + Karla (Body)
+         Preconnect for faster font loading
+         ═══════════════════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700&family=Playfair+Display+SC:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         STYLESHEET
+         ═══════════════════════════════════════════════════════════ -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="is-loading">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PRELOADER
+         Displays while the 300 hero frames load into memory.
+         Shows logo + animated progress bar + percentage counter.
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="preloader" class="preloader" role="status" aria-label="Loading">
+        <div class="preloader__content">
+            <img src="assets/logo.jpeg" alt="Praneetha Foods" class="preloader__logo" width="160" height="90">
+            <div class="preloader__bar-track">
+                <div class="preloader__bar-fill" id="preloaderBar"></div>
+            </div>
+            <p class="preloader__text">
+                <span id="preloaderPercent">0</span>% — Loading Experience
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         NAVIGATION
+         Fixed glass-morphism navbar.
+         Shrinks + blurs on scroll via JS-applied .is-scrolled class.
+         ═══════════════════════════════════════════════════════════ -->
+    <nav id="navbar" class="navbar" aria-label="Main navigation">
+        <div class="navbar__inner">
+            <!-- Logo -->
+            <a href="#" class="navbar__logo" aria-label="Praneetha Foods Home">
+                <img src="assets/logo.jpeg" alt="Praneetha Foods" class="navbar__logo-img" width="48" height="27">
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <ul class="navbar__links" role="menubar">
+                <li role="none"><a href="#hero" class="navbar__link navbar__link--active" role="menuitem">Home</a></li>
+                <li role="none"><a href="#about" class="navbar__link" role="menuitem">About</a></li>
+                <li role="none"><a href="#chefs" class="navbar__link" role="menuitem">Chefs</a></li>
+                <li role="none"><a href="#menu" class="navbar__link" role="menuitem">Menu</a></li>
+                <li role="none"><a href="#contact" class="navbar__link" role="menuitem">Contact</a></li>
+            </ul>
+
+            <!-- Desktop CTA Button -->
+            <a href="#cta" class="navbar__cta">Order Now</a>
+
+            <!-- Mobile Hamburger Toggle -->
+            <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay (hidden by default, toggled via JS) -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+        <ul class="mobile-menu__links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#chefs">Chefs</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#cta" class="mobile-menu__cta">Order Now</a></li>
+        </ul>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         MAIN CONTENT WRAPPER
+         position: relative + z-index: 1 so it sits ABOVE the
+         fixed footer, creating the "reveal on scroll" effect.
+         The ::after pseudo-element adds a spacer equal to footer height.
+         ═══════════════════════════════════════════════════════════ -->
+    <main id="mainContent" class="main-content">
+
+        <!-- ─────────────────────────────────────────────────────
+             SECTION 1: CINEMATIC HERO
+             Scroll-bound frame-by-frame animation on <canvas>.
+             
+             Architecture:
+             • .hero has height: 500vh → creates the scroll distance
+             • .hero__canvas-wrap (100vh) is PINNED by ScrollTrigger
+             • As user scrolls through 500vh, frames 001→300 play
+             • Text overlays fade in/out at specific scroll markers
+             ───────────────────────────────────────────────────── -->
+        <section id="hero" class="hero">
+            <div class="hero__canvas-wrap" id="heroCanvasWrap">
+                <!-- The HTML5 Canvas — frames are drawn here via JS -->
+                <canvas id="heroCanvas" class="hero__canvas" aria-label="Cinematic food animation"></canvas>
+
+                <!-- Gradient overlays for text readability over frames -->
+                <div class="hero__gradient-overlay" aria-hidden="true"></div>
+
+                <!-- ── Text Overlay 1: BRAND REVEAL (0–15% scroll) ── -->
+                <!-- Massive brand name with 3D tilt entrance animation -->
+                <div class="hero__text hero__text--brand" id="heroTextBrand">
+                    <h1 class="hero__title">PRANEETHA</h1>
+                    <p class="hero__subtitle-sinhala">ගමේ බත් කඩේ</p>
+                    <p class="hero__tagline">Spicy Taste</p>
+                </div>
+
+                <!-- ── Text Overlay 2: TRADITION (20–40% scroll) ── -->
+                <!-- Left-aligned floating text with parallax offset -->
+                <div class="hero__text hero__text--tradition" id="heroTextTradition">
+                    <h2 class="hero__heading">Traditional<br>Sri Lankan<br>Flavours</h2>
+                    <p class="hero__desc">Recipes passed through generations of village kitchens</p>
+                </div>
+
+                <!-- ── Text Overlay 3: FIRE & PASSION (45–65% scroll) ── -->
+                <!-- Right-aligned, synced with fire frames appearing -->
+                <div class="hero__text hero__text--fire" id="heroTextFire">
+                    <h2 class="hero__heading">Crafted With<br><span class="text-gradient">Fire &amp; Passion</span></h2>
+                    <p class="hero__desc">Where every flame tells a story</p>
+                </div>
+
+                <!-- ── Text Overlay 4: FEAST (70–85% scroll) ── -->
+                <!-- Center text as food assembles into the clay pot -->
+                <div class="hero__text hero__text--feast" id="heroTextFeast">
+                    <h2 class="hero__heading">A Feast For<br>Every Sense</h2>
+                    <p class="hero__desc">Taste the soul of Sri Lanka in every bite</p>
+                </div>
+
+                <!-- ── Text Overlay 5: CTA (88–100% scroll) ── -->
+                <!-- Animated "Order Now" button appears at sequence end -->
+                <div class="hero__text hero__text--cta" id="heroTextCTA">
+                    <a href="#cta" class="hero__cta-btn" id="heroCTABtn">
+                        <span>Order Now</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+
+                <!-- ── Scroll Indicator ── -->
+                <!-- Bouncing chevron at the very bottom of viewport -->
+                <div class="scroll-indicator" id="scrollIndicator">
+                    <span class="scroll-indicator__text">Scroll to Explore</span>
+                    <div class="scroll-indicator__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 6 5 5 5-5"/><path d="m7 13 5 5 5-5"/></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ─────────────────────────────────────────────────────
+             SECTION 2: 3D BENTO BOX FEATURES GRID
+             
+             Asymmetric CSS Grid with glassmorphism cards.
+             Each card has:
+             • 3D tilt effect on mousemove (via bento-tilt.js)
+             • Radial glow that follows the cursor
+             • Staggered scroll-triggered entrance (via GSAP)
+             
+             Layout (desktop):
+             ┌──────────────────┬──────────┐
+             │  Authentic       │  Fresh   │
+             │  Recipes (wide)  │  Daily   │
+             ├──────────┬───────┴──────────┤
+             │  Fiery   │  Order Online    │
+             │ Flavours │  (wide + CTA)    │
+             └──────────┴──────────────────┘
+             ───────────────────────────────────────────────────── -->
+        <section id="features" class="features">
+            <div class="features__container">
+                <!-- Section Header -->
+                <div class="features__header" id="featuresHeader">
+                    <p class="features__label">Why Praneetha</p>
+                    <h2 class="features__title">The Art of<br><span class="text-gradient">Village Cooking</span></h2>
+                </div>
+
+                <!-- Bento Grid -->
+                <div class="bento-grid" id="bentoGrid">
+
+                    <!-- ── Card 1: Authentic Recipes (Wide Left) ── -->
+                    <div class="bento-card bento-card--wide" data-tilt>
+                        <div class="bento-card__glow" aria-hidden="true"></div>
+                        <div class="bento-card__content">
+                            <div class="bento-card__icon-wrap">
+                                <!-- Lucide: chef-hat -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.646-7.544 6 6 0 0 0-11.162 0A4 4 0 0 0 2.273 14.61c.411.197.727.584.727 1.04V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg>
+                            </div>
+                            <div class="bento-card__stat">3<span class="bento-card__stat-unit">Gen</span></div>
+                            <h3 class="bento-card__title">Authentic Recipes</h3>
+                            <p class="bento-card__desc">Village-style cooking passed through three generations. Every dish tells the story of our grandmother's kitchen — clay pots, wood fire, and recipes perfected over decades.</p>
+                        </div>
+                    </div>
+
+                    <!-- ── Card 2: Fresh Daily ── -->
+                    <div class="bento-card" data-tilt>
+                        <div class="bento-card__glow" aria-hidden="true"></div>
+                        <div class="bento-card__content">
+                            <div class="bento-card__icon-wrap bento-card__icon-wrap--green">
+                                <!-- Lucide: leaf -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                            </div>
+                            <div class="bento-card__stat">5<span class="bento-card__stat-unit">AM</span></div>
+                            <h3 class="bento-card__title">Fresh Daily</h3>
+                            <p class="bento-card__desc">Ingredients sourced from local markets before dawn every single morning.</p>
+                        </div>
+                    </div>
+
+                    <!-- ── Card 3: Fiery Flavours ── -->
+                    <div class="bento-card" data-tilt>
+                        <div class="bento-card__glow" aria-hidden="true"></div>
+                        <div class="bento-card__content">
+                            <div class="bento-card__icon-wrap bento-card__icon-wrap--fire">
+                                <!-- Lucide: flame -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                            </div>
+                            <div class="bento-card__stat">20<span class="bento-card__stat-unit">+</span></div>
+                            <h3 class="bento-card__title">Fiery Flavours</h3>
+                            <p class="bento-card__desc">Signature spice blends that ignite your palate with authentic Sri Lankan heat.</p>
+                        </div>
+                    </div>
+
+                    <!-- ── Card 4: Order Online (Wide Right + CTA) ── -->
+                    <div class="bento-card bento-card--wide bento-card--cta" data-tilt>
+                        <div class="bento-card__glow" aria-hidden="true"></div>
+                        <div class="bento-card__content">
+                            <div class="bento-card__icon-wrap bento-card__icon-wrap--gold">
+                                <!-- Lucide: bike (delivery) -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+                            </div>
+                            <div class="bento-card__stat">30<span class="bento-card__stat-unit">min</span></div>
+                            <h3 class="bento-card__title">Order Online</h3>
+                            <p class="bento-card__desc">Hot meals delivered to your doorstep. Fresh from our kitchen to your table in 30 minutes.</p>
+                            <a href="#cta" class="bento-card__btn">
+                                <span>Start Your Order</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                </div><!-- /.bento-grid -->
+            </div><!-- /.features__container -->
+        </section>
+
+
+        <!-- ─────────────────────────────────────────────────────
+             SECTION 3: IMMERSIVE CALL TO ACTION
+             
+             Full-width centered section with:
+             • Massive serif heading
+             • Magnetic hover button (follows cursor subtly)
+             • Liquid glow hover state
+             • Decorative ember particles (CSS-only)
+             ───────────────────────────────────────────────────── -->
+        <section id="cta" class="cta-section">
+            <div class="cta-section__container">
+                <p class="cta-section__label">Don't Just Read About It</p>
+                <h2 class="cta-section__title">Ready to Taste<br>the <span class="text-gradient">Tradition</span>?</h2>
+                <p class="cta-section__desc">Order your favourite Sri Lankan dishes now and have them delivered hot, fresh, and bursting with authentic flavour.</p>
+
+                <!-- Magnetic Button Wrapper -->
+                <div class="magnetic-wrap" id="magneticWrap">
+                    <button class="magnetic-btn" id="magneticBtn" type="button">
+                        <span class="magnetic-btn__text">Order Now</span>
+                        <span class="magnetic-btn__glow" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Decorative floating ember particles -->
+            <div class="cta-section__embers" aria-hidden="true">
+                <span class="ember ember--1"></span>
+                <span class="ember ember--2"></span>
+                <span class="ember ember--3"></span>
+                <span class="ember ember--4"></span>
+                <span class="ember ember--5"></span>
+                <span class="ember ember--6"></span>
+            </div>
+        </section>
+
+    </main><!-- /.main-content -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FOOTER — REVEAL ON SCROLL
+         
+         The footer is position: fixed at the bottom with z-index: 0.
+         The <main> has z-index: 1 and a solid background, plus an
+         ::after spacer equal to the footer height. As the user
+         scrolls past the CTA, the main content slides up to
+         reveal the footer underneath — like lifting a curtain.
+         ═══════════════════════════════════════════════════════════ -->
+    <footer id="footer" class="footer" role="contentinfo">
+        <div class="footer__inner">
+            <div class="footer__grid">
+                <!-- Brand Column -->
+                <div class="footer__brand">
+                    <img src="assets/logo.jpeg" alt="Praneetha Foods" class="footer__logo" width="120" height="68">
+                    <p class="footer__brand-text">Traditional Sri Lankan village-style restaurant. Spicy taste since generations — where every meal is a celebration of fire, flavour, and family.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__list">
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#chefs">Our Chefs</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Contact</h4>
+                    <ul class="footer__list">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="footer__icon"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>Colombo, Sri Lanka</span>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="footer__icon"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span>+94 77 123 4567</span>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="footer__icon"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <span>hello@praneethafoods.lk</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Social Links -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Follow Us</h4>
+                    <div class="footer__socials">
+                        <a href="#" class="footer__social" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                        <a href="#" class="footer__social" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        </a>
+                        <a href="#" class="footer__social" aria-label="Twitter / X">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="footer__bottom">
+                <p>&copy; 2026 Praneetha Foods. All rights reserved.</p>
+                <p>
+                    Crafted with
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="footer__flame-icon"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                    in Sri Lanka
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCRIPTS
+         
+         Load order:
+         1. GSAP Core — Animation engine
+         2. ScrollTrigger Plugin — Scroll-bound animations
+         3. preloader.js — Loads 300 frames into memory
+         4. scroll-engine.js — Canvas rendering + ScrollTrigger
+         5. bento-tilt.js — 3D mouse-tracking tilt on cards
+         6. interactions.js — Magnetic button, navbar, misc
+         ═══════════════════════════════════════════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/scroll-engine.js"></script>
+    <script src="js/bento-tilt.js"></script>
+    <script src="js/interactions.js"></script>
+
+</body>
+</html>

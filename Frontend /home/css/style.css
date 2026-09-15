@@ -1,0 +1,1458 @@
+/* ============================================================
+   PRANEETHA FOODS — ULTRA-PREMIUM CINEMATIC HOME PAGE
+   ============================================================
+   Design System: Dark Cinematic (#050505)
+   Palette:       Fire Red (#DC2626) + Amber Gold (#F59E0B)
+   Typography:    Playfair Display SC (headings) + Karla (body)
+   Source:        UI/UX Pro Max Skill + Custom overrides
+   ============================================================ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   1. DESIGN TOKENS (CSS Custom Properties)
+   All design decisions centralized here for easy theming.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+    /* ── Colors: Dark Cinematic Theme ──────────────────────── */
+    --color-bg:             #050505;
+    --color-surface:        #111111;
+    --color-surface-alt:    #1A1A1A;
+    --color-primary:        #DC2626;      /* Appetizing red (logo fire) */
+    --color-primary-dark:   #B91C1C;
+    --color-secondary:      #F87171;      /* Warm highlight */
+    --color-accent:         #F59E0B;      /* Amber gold (fire glow) */
+    --color-accent-dark:    #D97706;
+    --color-text:           #F5F5F5;
+    --color-text-muted:     #A1A1AA;
+    --color-text-dim:       #71717A;
+    --color-border:         rgba(255, 255, 255, 0.08);
+    --color-glass:          rgba(17, 17, 17, 0.6);
+    --color-glass-border:   rgba(255, 255, 255, 0.08);
+    --color-glass-hover:    rgba(255, 255, 255, 0.12);
+
+    /* ── Typography ───────────────────────────────────────── */
+    --font-heading:         'Playfair Display SC', serif;
+    --font-body:            'Karla', sans-serif;
+
+    /* ── Spacing Scale ────────────────────────────────────── */
+    --space-xs:   0.25rem;   /* 4px  */
+    --space-sm:   0.5rem;    /* 8px  */
+    --space-md:   1rem;      /* 16px */
+    --space-lg:   1.5rem;    /* 24px */
+    --space-xl:   2rem;      /* 32px */
+    --space-2xl:  3rem;      /* 48px */
+    --space-3xl:  4rem;      /* 64px */
+    --space-4xl:  6rem;      /* 96px */
+    --space-5xl:  8rem;      /* 128px */
+
+    /* ── Shadows ──────────────────────────────────────────── */
+    --shadow-sm:            0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md:            0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg:            0 10px 15px rgba(0, 0, 0, 0.5);
+    --shadow-xl:            0 20px 25px rgba(0, 0, 0, 0.6);
+    --shadow-glow:          0 0 40px rgba(245, 158, 11, 0.12);
+    --shadow-glow-strong:   0 0 80px rgba(245, 158, 11, 0.25);
+    --shadow-primary-glow:  0 0 30px rgba(220, 38, 38, 0.4);
+
+    /* ── Layout ───────────────────────────────────────────── */
+    --max-width:            1280px;
+    --nav-height:           80px;
+    --nav-height-scrolled:  64px;
+    --footer-height:        420px;
+
+    /* ── Transitions ──────────────────────────────────────── */
+    --transition-fast:      150ms ease;
+    --transition-base:      250ms ease;
+    --transition-slow:      400ms ease;
+    --transition-spring:    500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* ── Border Radius ────────────────────────────────────── */
+    --radius-sm:   8px;
+    --radius-md:   12px;
+    --radius-lg:   16px;
+    --radius-xl:   24px;
+    --radius-full: 9999px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   2. GLOBAL RESET & BASE STYLES
+   ═══════════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent horizontal overflow from animations */
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--color-text);
+    background: var(--color-bg);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Lock scrolling while preloader is active */
+body.is-loading {
+    overflow: hidden;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+}
+
+/* Custom selection color matching brand */
+::selection {
+    background: var(--color-primary);
+    color: white;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   3. TYPOGRAPHY SYSTEM
+   ═══════════════════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+}
+
+/* Fire gradient text utility — used on key phrases */
+.text-gradient {
+    background: linear-gradient(
+        135deg,
+        var(--color-primary) 0%,
+        var(--color-accent) 50%,
+        var(--color-secondary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   4. PRELOADER
+   Full-screen overlay with logo, progress bar, and percentage.
+   Hidden after all 300 frames are loaded by preloader.js.
+   ═══════════════════════════════════════════════════════════════ */
+.preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+/* JS adds this class after load completes */
+.preloader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.preloader__content {
+    text-align: center;
+    width: 320px;
+}
+
+.preloader__logo {
+    width: 160px;
+    height: auto;
+    margin: 0 auto var(--space-xl);
+    border-radius: var(--radius-md);
+    /* Subtle pulsing glow while loading */
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Progress bar track */
+.preloader__bar-track {
+    width: 100%;
+    height: 3px;
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-md);
+}
+
+/* Progress bar fill — width set by JS */
+.preloader__bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius-full);
+    transition: width 0.15s linear;
+}
+
+.preloader__text {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   5. NAVIGATION
+   Fixed top bar. Starts transparent, gains glass-morphism on
+   scroll via .is-scrolled class (applied by interactions.js).
+   ═══════════════════════════════════════════════════════════════ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-xl);
+    transition: all var(--transition-base);
+}
+
+/* Scrolled state: blurred glass background + subtle border */
+.navbar.is-scrolled {
+    height: var(--nav-height-scrolled);
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* ── Logo ── */
+.navbar__logo {
+    display: flex;
+    align-items: center;
+    transition: transform var(--transition-base);
+    flex-shrink: 0;
+}
+
+.navbar__logo:hover {
+    transform: scale(1.05);
+}
+
+.navbar__logo-img {
+    height: 48px;
+    width: auto;
+    border-radius: var(--radius-sm);
+    transition: height var(--transition-base);
+}
+
+.navbar.is-scrolled .navbar__logo-img {
+    height: 40px;
+}
+
+/* ── Desktop Links ── */
+.navbar__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.navbar__link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative;
+    padding: var(--space-xs) 0;
+    transition: color var(--transition-base);
+    cursor: pointer;
+}
+
+/* Animated underline on hover/active */
+.navbar__link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: width var(--transition-base);
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+    color: var(--color-text);
+}
+
+.navbar__link:hover::after,
+.navbar__link--active::after {
+    width: 100%;
+}
+
+/* ── Desktop CTA Button ── */
+.navbar__cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 24px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.navbar__cta:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-primary-glow);
+}
+
+/* ── Hamburger (Mobile Only) ── */
+.navbar__hamburger {
+    display: none;              /* Hidden on desktop */
+    flex-direction: column;
+    gap: 5px;
+    padding: var(--space-sm);
+    cursor: pointer;
+}
+
+.navbar__hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--color-text);
+    border-radius: 2px;
+    transition: all var(--transition-base);
+    transform-origin: center;
+}
+
+/* Hamburger → X transformation */
+.navbar__hamburger.is-active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navbar__hamburger.is-active span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar__hamburger.is-active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ── Mobile Menu Overlay ── */
+.mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(5, 5, 5, 0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-slow);
+}
+
+.mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu__links {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.mobile-menu__links a {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition-base);
+    cursor: pointer;
+}
+
+.mobile-menu__links a:hover {
+    color: var(--color-text);
+}
+
+.mobile-menu__cta {
+    color: var(--color-accent) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   6. MAIN CONTENT WRAPPER
+   Sits above the fixed footer to create the "reveal" effect.
+   The ::after pseudo-element acts as a spacer equal to the
+   footer height, so the page scrolls far enough to reveal it.
+   ═══════════════════════════════════════════════════════════════ */
+.main-content {
+    position: relative;
+    z-index: 1;
+    background: var(--color-bg);
+}
+
+/* Spacer to reveal the footer underneath */
+.main-content::after {
+    content: '';
+    display: block;
+    height: var(--footer-height);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   7. HERO SECTION — Cinematic Scroll-Bound Frame Animation
+   
+   The .hero section has height: 500vh, creating the scroll
+   distance. Inside, .hero__canvas-wrap (100vh) is pinned by
+   GSAP ScrollTrigger. As the user scrolls, frames 001→300
+   are drawn to the <canvas> in sequence.
+   ═══════════════════════════════════════════════════════════════ */
+.hero {
+    position: relative;
+    width: 100%;
+    /* 500vh of scroll distance for 300 frames = ~1.67vh per frame.
+       This gives smooth, cinematic pacing. */
+    height: 500vh;
+}
+
+/* This container is PINNED by ScrollTrigger.
+   It stays viewport-sized while the user scrolls through 500vh. */
+.hero__canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* The <canvas> element fills the entire viewport */
+.hero__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Canvas content is drawn by JS, not CSS object-fit.
+       The JS handles aspect-ratio-correct "cover" rendering. */
+}
+
+/* ── Gradient overlays for text readability ── */
+.hero__gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        /* Subtle vignette from edges */
+        radial-gradient(ellipse at center, transparent 40%, rgba(5, 5, 5, 0.4) 100%),
+        /* Top + bottom fade for text legibility */
+        linear-gradient(
+            to bottom,
+            rgba(5, 5, 5, 0.3) 0%,
+            transparent 15%,
+            transparent 85%,
+            rgba(5, 5, 5, 0.5) 100%
+        );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Hero Text Overlays ─────────────────────────────────────── */
+/* All text overlays start at opacity: 0 and are animated by
+   scroll-engine.js via GSAP at specific scroll progress points. */
+.hero__text {
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity, transform;
+}
+
+/* Brand text — massive centered title */
+.hero__text--brand {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: max-content;
+    max-width: 90vw;
+}
+
+.hero__title {
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--color-text);
+    text-shadow: 0 0 80px rgba(245, 158, 11, 0.3);
+    line-height: 1;
+    margin-bottom: var(--space-md);
+}
+
+.hero__subtitle-sinhala {
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    color: var(--color-accent);
+    letter-spacing: 0.3em;
+    margin-bottom: var(--space-sm);
+    font-weight: 300;
+}
+
+.hero__tagline {
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    color: var(--color-text-dim);
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* Tradition text — left aligned */
+.hero__text--tradition {
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    max-width: 500px;
+}
+
+/* Fire text — right aligned */
+.hero__text--fire {
+    top: 50%;
+    right: 8%;
+    transform: translateY(-50%);
+    text-align: right;
+    max-width: 500px;
+}
+
+/* Feast text — centered */
+.hero__text--feast {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    max-width: 600px;
+}
+
+/* CTA text — center-bottom */
+.hero__text--cta {
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+/* Shared heading style for overlay texts */
+.hero__heading {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+    line-height: 1.1;
+}
+
+/* Shared description style */
+.hero__desc {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* Position adjustments for right-aligned text */
+.hero__text--fire .hero__desc {
+    margin-left: auto;
+}
+
+.hero__text--feast .hero__desc {
+    margin: 0 auto;
+}
+
+/* ── Hero CTA Button ── */
+.hero__cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 16px 40px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    box-shadow: var(--shadow-primary-glow);
+    pointer-events: auto;
+}
+
+.hero__cta-btn:hover {
+    background: var(--color-primary-dark);
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(220, 38, 38, 0.6);
+}
+
+.hero__cta-btn svg {
+    transition: transform var(--transition-base);
+}
+
+.hero__cta-btn:hover svg {
+    transform: translateX(4px);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   8. SCROLL INDICATOR
+   Bouncing chevron at the bottom of the hero viewport.
+   Fades out after the user starts scrolling.
+   ═══════════════════════════════════════════════════════════════ */
+.scroll-indicator {
+    position: absolute;
+    bottom: var(--space-2xl);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+    opacity: 1;
+    transition: opacity var(--transition-slow);
+}
+
+.scroll-indicator.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scroll-indicator__text {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+}
+
+.scroll-indicator__icon {
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.scroll-indicator__icon svg {
+    color: var(--color-text-dim);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   9. FEATURES SECTION — 3D BENTO BOX GRID
+   
+   Asymmetric CSS Grid with glassmorphism cards.
+   Each card with [data-tilt] gets 3D perspective transforms
+   on mousemove (handled by bento-tilt.js).
+   
+   Desktop layout:
+   ┌──────────────────┬──────────┐
+   │  Authentic       │  Fresh   │
+   │  Recipes (wide)  │  Daily   │
+   ├──────────┬───────┴──────────┤
+   │  Fiery   │  Order Online    │
+   │ Flavours │  (wide + CTA)    │
+   └──────────┴──────────────────┘
+   ═══════════════════════════════════════════════════════════════ */
+.features {
+    position: relative;
+    padding: var(--space-5xl) var(--space-xl);
+    /* Subtle radial glow transition from hero section */
+    background:
+        radial-gradient(ellipse at top center, rgba(220, 38, 38, 0.04) 0%, transparent 50%),
+        var(--color-bg);
+}
+
+.features__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* ── Section Header ── */
+.features__header {
+    text-align: center;
+    margin-bottom: var(--space-4xl);
+}
+
+.features__label {
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-md);
+    font-weight: 600;
+    font-family: var(--font-body);
+}
+
+.features__title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--color-text);
+}
+
+/* ── Bento Grid Layout ── */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 320px;
+    gap: 20px;
+}
+
+/* Wide cards span 2 of 3 columns */
+.bento-card--wide {
+    grid-column: span 2;
+}
+
+/* ── Bento Card Base ── */
+.bento-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    /* Glassmorphism: semi-transparent background + blur */
+    background: var(--color-glass);
+    border: 1px solid var(--color-glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow: hidden;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    /* 3D transform space for tilt effect */
+    transform-style: preserve-3d;
+    will-change: transform;
+    cursor: pointer;
+}
+
+.bento-card:hover {
+    border-color: var(--color-glass-hover);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ── Cursor-tracking glow overlay ── */
+/* The radial gradient center (--mouse-x, --mouse-y) is set by
+   bento-tilt.js based on cursor position within the card. */
+.bento-card__glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+    border-radius: inherit;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(245, 158, 11, 0.06),
+        transparent 40%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bento-card:hover .bento-card__glow {
+    opacity: 1;
+}
+
+/* ── Card Content ── */
+.bento-card__content {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-2xl);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* ── Icon Container ── */
+.bento-card__icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: rgba(220, 38, 38, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-lg);
+    transition: transform var(--transition-base);
+}
+
+.bento-card__icon-wrap svg {
+    width: 24px;
+    height: 24px;
+    color: var(--color-primary);
+}
+
+/* Color variants for different card icons */
+.bento-card__icon-wrap--green {
+    background: rgba(34, 197, 94, 0.12);
+}
+
+.bento-card__icon-wrap--green svg {
+    color: #22C55E;
+}
+
+.bento-card__icon-wrap--fire {
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.bento-card__icon-wrap--fire svg {
+    color: var(--color-accent);
+}
+
+.bento-card__icon-wrap--gold {
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.bento-card__icon-wrap--gold svg {
+    color: var(--color-accent);
+}
+
+/* 3D lift on hover (translateZ requires preserve-3d parent) */
+.bento-card:hover .bento-card__icon-wrap {
+    transform: translateZ(20px);
+}
+
+/* ── Stat Number ── */
+.bento-card__stat {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+    margin-bottom: var(--space-sm);
+}
+
+.bento-card__stat-unit {
+    font-size: 0.4em;
+    color: var(--color-accent);
+    margin-left: 4px;
+    font-weight: 400;
+    vertical-align: super;
+}
+
+/* ── Card Title & Description ── */
+.bento-card__title {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-sm);
+    letter-spacing: 0;
+}
+
+.bento-card__desc {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    max-width: 440px;
+}
+
+/* ── Card CTA Button (on the Order card) ── */
+.bento-card__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    padding: 10px 24px;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    width: fit-content;
+}
+
+.bento-card__btn:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+}
+
+.bento-card__btn svg {
+    transition: transform var(--transition-base);
+}
+
+.bento-card__btn:hover svg {
+    transform: translateX(4px);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   10. CTA SECTION — Immersive Call to Action
+   
+   Full-width centered section with massive heading and
+   magnetic hover button. Includes decorative ember particles.
+   ═══════════════════════════════════════════════════════════════ */
+.cta-section {
+    position: relative;
+    padding: var(--space-5xl) var(--space-xl);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    /* Subtle radial glow from bottom */
+    background:
+        radial-gradient(ellipse at bottom center, rgba(220, 38, 38, 0.06) 0%, transparent 60%),
+        var(--color-bg);
+}
+
+.cta-section__container {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+}
+
+.cta-section__label {
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-lg);
+    font-weight: 600;
+    font-family: var(--font-body);
+}
+
+.cta-section__title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--color-text);
+    margin-bottom: var(--space-xl);
+}
+
+.cta-section__desc {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: var(--space-3xl);
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ── Magnetic Button ──────────────────────────────────────────
+   The .magnetic-wrap has a larger hit area. interactions.js
+   tracks cursor proximity and applies subtle translateX/Y to
+   the button, making it "follow" the cursor magnetically. */
+.magnetic-wrap {
+    display: inline-block;
+    position: relative;
+    padding: 40px;   /* Invisible hit area for magnetic tracking */
+    cursor: pointer;
+}
+
+.magnetic-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 56px;
+    background: var(--color-primary);
+    color: white;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    border: none;
+}
+
+.magnetic-btn:hover {
+    background: var(--color-primary-dark);
+    box-shadow:
+        0 0 30px rgba(220, 38, 38, 0.5),
+        0 0 60px rgba(220, 38, 38, 0.3),
+        0 0 100px rgba(220, 38, 38, 0.1);
+}
+
+.magnetic-btn__text {
+    position: relative;
+    z-index: 2;
+}
+
+/* Animated gradient glow ring behind button on hover */
+.magnetic-btn__glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(
+        135deg,
+        var(--color-primary),
+        var(--color-accent),
+        var(--color-secondary),
+        var(--color-primary)
+    );
+    background-size: 300% 300%;
+    animation: glow-rotate 4s ease-in-out infinite;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.magnetic-btn:hover .magnetic-btn__glow {
+    opacity: 1;
+}
+
+/* ── Decorative Ember Particles ── */
+.cta-section__embers {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ember {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    opacity: 0;
+    animation: ember-float 6s ease-in-out infinite;
+}
+
+.ember--1 { left: 10%; bottom: 0; animation-delay: 0s; }
+.ember--2 { left: 25%; bottom: 0; animation-delay: 1s; }
+.ember--3 { left: 45%; bottom: 0; animation-delay: 2s; }
+.ember--4 { left: 60%; bottom: 0; animation-delay: 3s; }
+.ember--5 { left: 75%; bottom: 0; animation-delay: 4s; }
+.ember--6 { left: 90%; bottom: 0; animation-delay: 5s; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   11. FOOTER — Reveal On Scroll
+   
+   The footer is position: fixed at the bottom with z-index: 0.
+   The <main> content (z-index: 1) has a solid background that
+   covers the footer. As the user scrolls past the CTA section,
+   the main content slides up, revealing the footer underneath
+   — like lifting a curtain.
+   ═══════════════════════════════════════════════════════════════ */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+}
+
+.footer__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-4xl) var(--space-xl) var(--space-xl);
+}
+
+/* 4-column grid: brand (wide) + 3 columns */
+.footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-3xl);
+    margin-bottom: var(--space-3xl);
+}
+
+.footer__logo {
+    width: 120px;
+    height: auto;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.footer__brand-text {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    max-width: 280px;
+}
+
+.footer__col-title {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: var(--space-lg);
+}
+
+.footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.footer__list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.footer__list a,
+.footer__list span {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition-base);
+}
+
+.footer__list a:hover {
+    color: var(--color-accent);
+}
+
+.footer__icon {
+    flex-shrink: 0;
+    color: var(--color-text-dim);
+}
+
+/* Social icons */
+.footer__socials {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.footer__social {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.footer__social svg {
+    color: var(--color-text-muted);
+}
+
+.footer__social:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.footer__social:hover svg {
+    color: white;
+}
+
+/* Bottom bar */
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+}
+
+.footer__bottom p {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.footer__flame-icon {
+    color: var(--color-primary);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   12. ANIMATIONS & KEYFRAMES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Bouncing scroll indicator */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Pulsing glow for preloader logo */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(245, 158, 11, 0.3);
+    }
+}
+
+/* Rotating gradient for magnetic button glow ring */
+@keyframes glow-rotate {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Floating animation for decorative elements */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Ember particle: rises, sways, and fades */
+@keyframes ember-float {
+    0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(-40vh) translateX(20px) scale(0.6);
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(-80vh) translateX(-10px) scale(0.2);
+        opacity: 0;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   13. RESPONSIVE BREAKPOINTS
+   Mobile-first approach. Key breakpoints:
+   • 480px  — Small mobile
+   • 768px  — Tablet / large mobile
+   • 1024px — Small desktop
+   • 1440px — Large desktop
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Tablet & Below (≤ 1024px) ────────────────────────────── */
+@media (max-width: 1024px) {
+    .footer__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xl);
+    }
+}
+
+/* ── Tablet & Below (≤ 768px) ─────────────────────────────── */
+@media (max-width: 768px) {
+    /* Nav: hide desktop links, show hamburger */
+    .navbar__links {
+        display: none;
+    }
+
+    .navbar__cta {
+        display: none;
+    }
+
+    .navbar__hamburger {
+        display: flex;
+    }
+
+    /* Hero text: center everything on mobile */
+    .hero__text--tradition,
+    .hero__text--fire {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        max-width: 90%;
+        padding: 0 var(--space-md);
+    }
+
+    .hero__text--fire .hero__desc,
+    .hero__text--tradition .hero__desc {
+        margin: 0 auto;
+    }
+
+    /* Bento grid: single column stack */
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+
+    .bento-card--wide {
+        grid-column: span 1;
+    }
+
+    .bento-card__content {
+        padding: var(--space-xl);
+    }
+
+    /* Sections: reduce padding */
+    .features {
+        padding: var(--space-3xl) var(--space-md);
+    }
+
+    .cta-section {
+        padding: var(--space-3xl) var(--space-md);
+        min-height: 60vh;
+    }
+
+    /* Footer */
+    .footer__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+
+    .footer__bottom {
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: center;
+    }
+
+    :root {
+        --footer-height: 600px;
+    }
+}
+
+/* ── Small Mobile (≤ 480px) ───────────────────────────────── */
+@media (max-width: 480px) {
+    :root {
+        --space-xl: 1.5rem;
+        --space-2xl: 2rem;
+        --space-3xl: 3rem;
+        --space-4xl: 4rem;
+        --space-5xl: 5rem;
+    }
+
+    .hero__title {
+        letter-spacing: 0.08em;
+    }
+
+    .hero__heading {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    .bento-card__stat {
+        font-size: 2.5rem;
+    }
+
+    .magnetic-btn {
+        padding: 16px 40px;
+        font-size: 1rem;
+    }
+
+    .magnetic-wrap {
+        padding: 20px;
+    }
+}
+
+/* ── Large Desktop (≥ 1440px) ─────────────────────────────── */
+@media (min-width: 1440px) {
+    .bento-grid {
+        gap: 24px;
+        grid-auto-rows: 360px;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   14. ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .scroll-indicator__icon {
+        animation: none;
+    }
+
+    .preloader__logo {
+        animation: none;
+    }
+
+    .ember {
+        animation: none;
+        display: none;
+    }
+}
+
+/* Visible focus rings for keyboard navigation */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* Skip to content link (screen readers & keyboard users) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
