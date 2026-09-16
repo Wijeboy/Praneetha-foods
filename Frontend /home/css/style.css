@@ -936,56 +936,219 @@ h6 {
 
 
 /* ═══════════════════════════════════════════════════════════════
-   10. CTA SECTION — Immersive Call to Action
+   10. 3D PARALLAX CULINARY GALLERY & CTA
    
-   Full-width centered section with massive heading and
-   magnetic hover button. Includes decorative ember particles.
+   Masonry/Bento CSS Grid featuring 6 high-res culinary images
+   with GSAP ScrollTrigger multi-speed vertical parallax scrub.
    ═══════════════════════════════════════════════════════════════ */
-.cta-section {
+.parallax-gallery {
     position: relative;
-    padding: var(--space-5xl) var(--space-xl);
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-    /* Subtle radial glow from bottom */
+    padding: clamp(16px, 2vw, 24px) var(--space-xl) clamp(var(--space-xl), 3vw, var(--space-2xl));
     background:
-        radial-gradient(ellipse at bottom center, rgba(220, 38, 38, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 0%, rgba(220, 38, 38, 0.05) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 60%),
         var(--color-bg);
+    overflow: hidden;
 }
 
-.cta-section__container {
-    position: relative;
-    z-index: 1;
-    max-width: 700px;
+.parallax-gallery__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
 }
 
-.cta-section__label {
-    font-size: 0.85rem;
-    letter-spacing: 0.3em;
+.parallax-gallery__header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto clamp(var(--space-lg), 2.5vw, var(--space-xl));
+}
+
+.gallery-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.22);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-accent);
-    margin-bottom: var(--space-lg);
-    font-weight: 600;
-    font-family: var(--font-body);
+    margin-bottom: var(--space-md);
 }
 
-.cta-section__title {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+.gallery-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent);
+}
+
+.gallery-title {
+    font-family: var(--font-heading), 'Playfair Display SC', serif;
+    font-size: clamp(2.6rem, 4.5vw, 4rem);
     color: var(--color-text);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-md);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
 }
 
-.cta-section__desc {
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
+.gallery-intro {
+    font-size: 1.02rem;
     color: var(--color-text-muted);
-    line-height: 1.7;
-    margin-bottom: var(--space-3xl);
-    max-width: 550px;
-    margin-left: auto;
-    margin-right: auto;
+    line-height: 1.75;
+}
+
+/* 3-Column 3D Parallax Grid */
+.parallax-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(var(--space-md), 2.5vw, var(--space-xl));
+    align-items: start;
+    margin-bottom: clamp(var(--space-2xl), 3.5vw, var(--space-3xl));
+    perspective: 1400px;
+}
+
+.gallery-column {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-md), 2.5vw, var(--space-xl));
+}
+
+/* Stagger center column offset */
+.gallery-column--fast {
+    margin-top: clamp(24px, 3.5vw, 48px);
+}
+
+/* Double-Bezel Card Shell */
+.gallery-card {
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+.gallery-card__shell {
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.02);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+.gallery-card:hover .gallery-card__shell {
+    border-color: rgba(220, 38, 38, 0.3);
+    box-shadow: 
+        0 30px 70px rgba(0, 0, 0, 0.75),
+        0 0 35px rgba(220, 38, 38, 0.12);
+}
+
+.gallery-card__media {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: #0D1117;
+}
+
+.gallery-card--featured .gallery-card__media {
+    aspect-ratio: 4 / 3.5;
+}
+
+.gallery-card--hero .gallery-card__media {
+    aspect-ratio: 4 / 4.4;
+}
+
+.gallery-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.gallery-card:hover .gallery-card__media img {
+    transform: scale(1.08);
+}
+
+/* Floating Glass Pill */
+.gallery-card__glass-pill {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 6px 14px;
+    background: rgba(10, 13, 20, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+    z-index: 2;
+}
+
+/* Hover Content Overlay */
+.gallery-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(5, 5, 5, 0.94) 0%, rgba(5, 5, 5, 0.45) 45%, transparent 80%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-lg);
+    z-index: 2;
+}
+
+.gallery-card__name {
+    font-family: var(--font-heading), 'Playfair Display SC', serif;
+    font-size: 1.18rem;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+    line-height: 1.25;
+}
+
+.gallery-card__desc {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.45;
+}
+
+/* Integrated Gallery CTA Bar */
+.gallery-cta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    padding: clamp(var(--space-lg), 3vw, var(--space-2xl)) clamp(var(--space-xl), 4vw, var(--space-3xl));
+    background: 
+        radial-gradient(ellipse at center, rgba(220, 38, 38, 0.1) 0%, transparent 70%),
+        rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    flex-wrap: wrap;
+}
+
+.gallery-cta-bar__title {
+    font-family: var(--font-heading), 'Playfair Display SC', serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    color: var(--color-text);
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.gallery-cta-bar__desc {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
 }
 
 /* ── Magnetic Button ──────────────────────────────────────────
@@ -2162,7 +2325,7 @@ button:focus-visible {
    ═══════════════════════════════════════════════════════════════ */
 .location-section {
     position: relative;
-    padding: clamp(var(--space-4xl), 8vw, var(--space-5xl)) var(--space-xl);
+    padding: clamp(var(--space-2xl), 4vw, var(--space-3xl)) var(--space-xl) 0;
     background:
         radial-gradient(ellipse at 15% 50%, rgba(220, 38, 38, 0.07) 0%, transparent 60%),
         radial-gradient(ellipse at 85% 60%, rgba(245, 158, 11, 0.04) 0%, transparent 60%),
@@ -2204,10 +2367,12 @@ button:focus-visible {
 }
 
 .location-details__title {
-    font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+    font-family: var(--font-heading), 'Playfair Display SC', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 700;
     color: var(--color-text);
     margin-bottom: var(--space-md);
-    line-height: 1.12;
+    line-height: 1.08;
     letter-spacing: -0.01em;
 }
 
@@ -2215,7 +2380,7 @@ button:focus-visible {
     font-size: 1.02rem;
     color: var(--color-text-muted);
     line-height: 1.75;
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-lg);
     max-width: 480px;
 }
 
@@ -2223,7 +2388,7 @@ button:focus-visible {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-md);
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-lg);
 }
 
 /* Double-Bezel micro-card for each location detail item */
@@ -2516,6 +2681,21 @@ button:focus-visible {
     .location-map {
         aspect-ratio: 16 / 11;
     }
+
+    .parallax-gallery__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+
+    .gallery-column--fast {
+        margin-top: 0;
+    }
+
+    .gallery-cta-bar {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-lg);
+    }
 }
 
 @media (max-width: 600px) {
@@ -2539,6 +2719,18 @@ button:focus-visible {
     .knockout-ticker__separator {
         font-size: 2.2rem;
         margin: 0 16px;
+    }
+
+    .location-details__title {
+        font-size: clamp(2.4rem, 7.5vw, 3.2rem);
+    }
+
+    .gallery-title {
+        font-size: clamp(2rem, 6.5vw, 2.6rem);
+    }
+
+    .gallery-card__media {
+        aspect-ratio: 16 / 11;
     }
 
     .location-actions {

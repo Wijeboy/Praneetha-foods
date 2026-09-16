@@ -28,7 +28,7 @@
     <!-- ═══════════════════════════════════════════════════════════
          STYLESHEET
          ═══════════════════════════════════════════════════════════ -->
-    <link rel="stylesheet" href="css/style.css?v=2.4">
+    <link rel="stylesheet" href="css/style.css?v=2.7">
 </head>
 
 <body class="is-loading">
@@ -912,32 +912,134 @@
 
 
         <!-- ─────────────────────────────────────────────────────
-             SECTION 5: IMMERSIVE CALL TO ACTION
+             SECTION 5: 3D PARALLAX CULINARY GALLERY
+             
+             Masonry/Bento CSS grid with 6 high-res food images.
+             GSAP ScrollTrigger applies multi-speed scrubbed parallax
+             (y-axis translation) to columns/cards, creating an
+             immersive 3D floating effect on scroll.
              ───────────────────────────────────────────────────── -->
-        <section id="cta" class="cta-section">
-            <div class="cta-section__container">
-                <p class="cta-section__label">Don't Just Read About It</p>
-                <h2 class="cta-section__title">Ready to Taste<br>the <span class="text-gradient">Tradition</span>?</h2>
-                <p class="cta-section__desc">Order your favourite Sri Lankan dishes now and have them delivered hot,
-                    fresh, and bursting with authentic flavour.</p>
-
-                <!-- Magnetic Button Wrapper -->
-                <div class="magnetic-wrap" id="magneticWrap">
-                    <button class="magnetic-btn" id="magneticBtn" type="button">
-                        <span class="magnetic-btn__text">Order Now</span>
-                        <span class="magnetic-btn__glow" aria-hidden="true"></span>
-                    </button>
+        <section class="parallax-gallery" id="gallery" aria-label="3D Culinary Gallery">
+            <div class="parallax-gallery__container">
+                <!-- Section Header -->
+                <div class="parallax-gallery__header">
+                    <span class="gallery-badge">
+                        <span class="badge-dot"></span>
+                        Culinary Artistry
+                    </span>
+                    <h2 class="gallery-title">Echoes of <span class="text-gradient">Village Fire</span></h2>
+                    <p class="gallery-intro">Every dish is an heirloom recipe, simmered in seasoned clay pots over coconut shell embers with freshly stone-ground spices.</p>
                 </div>
-            </div>
 
-            <!-- Decorative floating ember particles -->
-            <div class="cta-section__embers" aria-hidden="true">
-                <span class="ember ember--1"></span>
-                <span class="ember ember--2"></span>
-                <span class="ember ember--3"></span>
-                <span class="ember ember--4"></span>
-                <span class="ember ember--5"></span>
-                <span class="ember ember--6"></span>
+                <!-- 3D Parallax Masonry / Bento Grid -->
+                <div class="parallax-gallery__grid">
+                    <!-- Column 1: Slower / Upward Lag (data-speed="-60") -->
+                    <div class="gallery-column gallery-column--slow">
+                        <!-- Card 1 -->
+                        <article class="gallery-card gallery-card--featured" data-speed="-50">
+                            <div class="gallery-card__shell">
+                                <div class="gallery-card__media">
+                                    <img src="assets/dish-1.jpg" alt="String Hoppers with Fresh Coconut Pol Sambol" loading="lazy" width="600" height="400">
+                                    <div class="gallery-card__glass-pill">Claypot Heritage</div>
+                                    <div class="gallery-card__overlay">
+                                        <h3 class="gallery-card__name">Pol Sambol & String Hoppers</h3>
+                                        <p class="gallery-card__desc">Hand-pressed red rice nests with freshly scraped fiery coconut relish.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Card 2 -->
+                        <article class="gallery-card" data-speed="40">
+                            <div class="gallery-card__shell">
+                                <div class="gallery-card__media">
+                                    <img src="assets/dish-5.jpg" alt="Golden Egg Hopper with runny yolk" loading="lazy" width="600" height="400">
+                                    <div class="gallery-card__glass-pill">Breakfast Legacy</div>
+                                    <div class="gallery-card__overlay">
+                                        <h3 class="gallery-card__name">Crisp Golden Appa</h3>
+                                        <p class="gallery-card__desc">Lacy fermented rice flour bowl with organic farm egg & crushed black pepper.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Column 2: Center Column - Counter-Float (data-speed="-90") -->
+                    <div class="gallery-column gallery-column--fast">
+                        <!-- Card 3 -->
+                        <article class="gallery-card gallery-card--hero" data-speed="-90">
+                            <div class="gallery-card__shell">
+                                <div class="gallery-card__media">
+                                    <img src="assets/dish-2.jpg" alt="Sizzling street Kottu Roti" loading="lazy" width="600" height="400">
+                                    <div class="gallery-card__glass-pill">Street Symphony</div>
+                                    <div class="gallery-card__overlay">
+                                        <h3 class="gallery-card__name">Fire-Wok Kottu Roti</h3>
+                                        <p class="gallery-card__desc">Shredded godamba flatbread chopped rhythmically on hot cast iron with curry gravy.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Card 4 -->
+                        <article class="gallery-card" data-speed="60">
+                            <div class="gallery-card__shell">
+                                <div class="gallery-card__media">
+                                    <img src="assets/dish-6.jpg" alt="Jaffna Spice Black Tiger Prawn Curry" loading="lazy" width="600" height="400">
+                                    <div class="gallery-card__glass-pill">Coastal Fire</div>
+                                    <div class="gallery-card__overlay">
+                                        <h3 class="gallery-card__name">Jaffna King Prawn Curry</h3>
+                                        <p class="gallery-card__desc">Whole tiger prawns infused with dark roasted curry powder, tamarind & drumsticks.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Column 3: Column - Subtle Drift (data-speed="-35") -->
+                    <div class="gallery-column gallery-column--medium">
+                        <!-- Card 5 -->
+                        <article class="gallery-card" data-speed="-35">
+                            <div class="gallery-card__shell">
+                                <div class="gallery-card__media">
+                                    <img src="assets/dish-3.jpg" alt="Authentic Dutch Burgher Lamprais" loading="lazy" width="600" height="400">
+                                    <div class="gallery-card__glass-pill">Centuries Old</div>
+                                    <div class="gallery-card__overlay">
+                                        <h3 class="gallery-card__name">Banana-Leaf Lamprais</h3>
+                                        <p class="gallery-card__desc">Slow-baked parcel of stock-infused samba rice, frikkadels, blachan & ash plantain.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Card 6 -->
+                        <article class="gallery-card gallery-card--featured" data-speed="45">
+                            <div class="gallery-card__shell">
+                                <div class="gallery-card__media">
+                                    <img src="assets/dish-4.jpg" alt="Claypot Fish Kiri Hodhi" loading="lazy" width="600" height="400">
+                                    <div class="gallery-card__glass-pill">Southern Coastal</div>
+                                    <div class="gallery-card__overlay">
+                                        <h3 class="gallery-card__name">Claypot Fish Kiri Hodhi</h3>
+                                        <p class="gallery-card__desc">Seer fish steaks simmered in first-press thick coconut milk, turmeric & fenugreek.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Sleek Integrated CTA Bar (anchored directly before footer reveal) -->
+                <div class="gallery-cta-bar" id="cta">
+                    <div class="gallery-cta-bar__content">
+                        <h3 class="gallery-cta-bar__title">Ready to Taste the <span class="text-gradient">Tradition</span>?</h3>
+                        <p class="gallery-cta-bar__desc">Order your favourite Sri Lankan dishes delivered hot & fresh to your doorstep.</p>
+                    </div>
+                    <div class="magnetic-wrap" id="magneticWrap">
+                        <button class="magnetic-btn" id="magneticBtn" type="button">
+                            <span class="magnetic-btn__text">Order Now</span>
+                            <span class="magnetic-btn__glow" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1079,7 +1181,7 @@
     <script src="js/preloader.js"></script>
     <script src="js/scroll-engine.js"></script>
     <script src="js/bento-tilt.js"></script>
-    <script src="js/interactions.js"></script>
+    <script src="js/interactions.js?v=2.7"></script>
 
 </body>
 
