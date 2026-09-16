@@ -514,9 +514,9 @@ h1, h2, h3, h4, h5, h6 {
     will-change: opacity, transform;
 }
 
-/* Brand text — massive centered title */
+/* Brand text — massive title, shifted vertically UP to avoid white rice */
 .hero__text--brand {
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
@@ -525,29 +525,40 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero__title {
-    font-size: clamp(3.5rem, 10vw, 9rem);
-    font-weight: 700;
+    font-size: clamp(3.5rem, 10vw, 8.5rem);
+    font-weight: 800;
     letter-spacing: 0.15em;
     color: var(--color-text);
-    text-shadow: 0 0 80px rgba(245, 158, 11, 0.3);
+    /* Premium, wide, soft shadow with zero harsh borders + warm amber glow */
+    text-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.95),
+        0 2px 10px rgba(0, 0, 0, 0.75),
+        0 0 80px rgba(245, 158, 11, 0.25);
     line-height: 1;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
 }
 
 .hero__subtitle-sinhala {
-    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    font-size: clamp(1.4rem, 3.2vw, 2.4rem);
     color: var(--color-accent);
     letter-spacing: 0.3em;
     margin-bottom: var(--space-sm);
-    font-weight: 300;
+    font-weight: 400;
+    /* Soft dark shadow matching main title */
+    text-shadow: 
+        0 10px 35px rgba(0, 0, 0, 0.95),
+        0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .hero__tagline {
-    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-size: clamp(0.9rem, 1.3vw, 1.15rem);
     color: var(--color-text-dim);
     letter-spacing: 0.5em;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
+    text-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.9),
+        0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 /* Story text — shared base for side-sliding overlays */
@@ -556,12 +567,18 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-50%);
     max-width: 520px;
     padding: 0 var(--space-xl);
+    pointer-events: none;
 }
 
 /* Left-aligned story text */
 .hero__text--left {
     left: 6%;
     text-align: left;
+}
+
+.hero__text--left .hero__desc {
+    margin-right: auto;
+    margin-left: 0;
 }
 
 /* Right-aligned story text */
@@ -572,6 +589,35 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero__text--right .hero__desc {
     margin-left: auto;
+    margin-right: 0;
+}
+
+/* Side story headings — elegant, luxury brand editorial showcase */
+.hero__heading {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-md);
+    color: #FFFFFF;
+    text-shadow: 
+        0 4px 24px rgba(0, 0, 0, 0.95),
+        0 1px 6px rgba(0, 0, 0, 0.8);
+    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.9));
+}
+
+/* Side story descriptions — generous breathing room & muted luxury tone */
+.hero__desc {
+    font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+    font-weight: 300;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    color: #E4E4E7;
+    max-width: 440px;
+    text-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.95),
+        0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 
@@ -1310,7 +1356,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .hero__heading {
-        font-size: clamp(2rem, 8vw, 3rem);
+        font-size: clamp(1.25rem, 5vw, 1.6rem);
     }
 
     .bento-card__stat {
