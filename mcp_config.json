@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "omniroute": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://localhost:20128/api/mcp/stream",
+        "--header",
+        "Authorization: Bearer oma_live_N6MgFDOlq0Ao_WuAeKC1PsWnw7kJveZEjaIoAxLFyYc"
+      ]
+    }
+  }
+}

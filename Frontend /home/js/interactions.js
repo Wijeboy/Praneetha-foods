@@ -33,15 +33,15 @@
        past a threshold. This triggers the glass-morphism
        background and shrink transition defined in CSS.
        ═══════════════════════════════════════════════════════ */
-    var SCROLL_THRESHOLD = 50;    // Pixels before glass effect activates
+    var SCROLL_THRESHOLD = 20;    // Pixels before glass effect activates
     var lastScrollY      = 0;
     var navTicking       = false;
 
     function updateNavbar() {
         if (window.scrollY > SCROLL_THRESHOLD) {
-            navbar.classList.add('is-scrolled');
+            navbar.classList.add('scrolled', 'is-scrolled');
         } else {
-            navbar.classList.remove('is-scrolled');
+            navbar.classList.remove('scrolled', 'is-scrolled');
         }
         navTicking = false;
     }
