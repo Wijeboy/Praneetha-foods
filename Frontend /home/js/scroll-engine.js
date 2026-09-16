@@ -32,12 +32,11 @@
     var heroSection      = document.getElementById('hero');
     var scrollIndicator  = document.getElementById('scrollIndicator');
 
-    /* Text overlay elements */
+    /* Text overlay elements — New cinematic flow */
+    var textStory1       = document.getElementById('heroTextStory1');
+    var textStory2       = document.getElementById('heroTextStory2');
+    var textStory3       = document.getElementById('heroTextStory3');
     var textBrand        = document.getElementById('heroTextBrand');
-    var textTradition    = document.getElementById('heroTextTradition');
-    var textFire         = document.getElementById('heroTextFire');
-    var textFeast        = document.getElementById('heroTextFeast');
-    var textCTA          = document.getElementById('heroTextCTA');
 
     /* ── State ────────────────────────────────────────────── */
     var frames           = null;   // Loaded Image array (from preloader.js)
@@ -137,10 +136,21 @@
 
 
     /* ═══════════════════════════════════════════════════════
-       TEXT OVERLAY ANIMATION
-       Calculates opacity for each overlay based on scroll
-       progress. Each overlay has a visibility window defined
-       by [fadeIn, peakStart, peakEnd, fadeOut] progress values.
+       TEXT OVERLAY ANIMATION — New Cinematic Flow
+       
+       Scroll Progress Timeline:
+       ┌─────────────────────────────────────────────────────┐
+       │  0–10%   (no text — pure cinematic frames)         │
+       │ 10–30%   Story 1: "Wood-Fire Cooking" ◄── LEFT     │
+       │ 35–55%   Story 2: "Village Spices"    ──► RIGHT    │
+       │ 60–80%   Story 3: "Clay Pot Recipes"  ◄── LEFT     │
+       │ 80–90%   (no text — let final frames build drama)  │
+       │ 90–100%  BRAND CLIMAX: "PRANEETHA" ★ STAYS         │
+       └─────────────────────────────────────────────────────┘
+       
+       Story texts SLIDE in horizontally from their side,
+       then WIPE away in the same direction on scroll-out.
+       Brand text SCALES up from 0.7 with opacity fade.
        ═══════════════════════════════════════════════════════ */
 
     /**
@@ -168,53 +178,52 @@
     }
 
     /**
-     * Updates all 5 text overlays based on current scroll progress.
-     * Also handles scroll indicator visibility.
+     * Animates a story text element with horizontal slide-in/wipe effect.
      * 
-     * Text overlay schedule (% of total scroll):
-     * ┌─────────────────────────────────────────────────────┐
-     * │ Brand     ██████████░░░░░                    0–15%  │
-     * │ Tradition        ░░░██████████░░░░           20–40% │
-     * │ Fire                      ░░░██████████░░░░  45–65% │
-     * │ Feast                                ░░██████ 70–85%│
-     * │ CTA                                     ░░███ 88–100│
-     * └─────────────────────────────────────────────────────┘
+     * @param {HTMLElement} el        - The text overlay element
+     * @param {number}      opacity   - Current opacity (0–1)
+     * @param {string}      side      - 'left' or 'right' (slide direction)
+     * @param {number}      slideDistance - Max pixel offset for slide
+     */
+    function animateStoryText(el, opacity, side, slideDistance) {
+        var offsetX;
+
+        if (side === 'left') {
+            // Slide in from left: starts at -slideDistance, arrives at 0
+            offsetX = (1 - opacity) * -slideDistance;
+        } else {
+            // Slide in from right: starts at +slideDistance, arrives at 0
+            offsetX = (1 - opacity) * slideDistance;
+        }
+
+        el.style.opacity = opacity;
+        el.style.transform = 'translateY(-50%) translateX(' + offsetX + 'px)';
+    }
+
+    /**
+     * Main overlay update function — called on every scroll tick.
+     * Maps scroll progress to the new cinematic text flow.
      */
     function updateTextOverlays(progress) {
-        // ── Brand: 0% → 15% ──
-        var brandOpacity = calcOverlayOpacity(progress, 0.00, 0.03, 0.10, 0.16);
-        textBrand.style.opacity = brandOpacity;
-        // 3D tilt entrance: slight Y translation + rotateX
-        var brandY = (1 - brandOpacity) * 40;
-        textBrand.style.transform = 'translate(-50%, -50%) translateY(' + brandY + 'px)';
 
-        // ── Tradition: 20% → 40% ──
-        var tradOpacity = calcOverlayOpacity(progress, 0.18, 0.22, 0.34, 0.40);
-        textTradition.style.opacity = tradOpacity;
-        // Parallax: slight horizontal float
-        var tradX = (1 - tradOpacity) * -30;
-        textTradition.style.transform = 'translateY(-50%) translateX(' + tradX + 'px)';
+        // ── Story 1: "Wood-Fire Cooking" — LEFT, 10–30% ──
+        var s1Opacity = calcOverlayOpacity(progress, 0.08, 0.13, 0.24, 0.30);
+        animateStoryText(textStory1, s1Opacity, 'left', 80);
 
-        // ── Fire & Passion: 45% → 65% ──
-        var fireOpacity = calcOverlayOpacity(progress, 0.43, 0.47, 0.58, 0.65);
-        textFire.style.opacity = fireOpacity;
-        // Float in from right
-        var fireX = (1 - fireOpacity) * 30;
-        textFire.style.transform = 'translateY(-50%) translateX(' + fireX + 'px)';
+        // ── Story 2: "Village Spices" — RIGHT, 35–55% ──
+        var s2Opacity = calcOverlayOpacity(progress, 0.33, 0.38, 0.49, 0.55);
+        animateStoryText(textStory2, s2Opacity, 'right', 80);
 
-        // ── Feast: 70% → 85% ──
-        var feastOpacity = calcOverlayOpacity(progress, 0.68, 0.72, 0.80, 0.86);
-        textFeast.style.opacity = feastOpacity;
-        // Scale entrance
-        var feastScale = 0.95 + (feastOpacity * 0.05);
-        textFeast.style.transform = 'translate(-50%, -50%) scale(' + feastScale + ')';
+        // ── Story 3: "Clay Pot Recipes" — LEFT, 60–80% ──
+        var s3Opacity = calcOverlayOpacity(progress, 0.58, 0.63, 0.74, 0.80);
+        animateStoryText(textStory3, s3Opacity, 'left', 80);
 
-        // ── CTA: 88% → 100% ──
-        var ctaOpacity = calcOverlayOpacity(progress, 0.86, 0.90, 1.0, 1.0);
-        textCTA.style.opacity = ctaOpacity;
-        // Rise from below
-        var ctaY = (1 - ctaOpacity) * 30;
-        textCTA.style.transform = 'translateX(-50%) translateY(' + ctaY + 'px)';
+        // ── Brand Climax: "PRANEETHA" — CENTER, 90–100% (STAYS) ──
+        // Dramatically scales from 0.7 → 1.0 with opacity fade
+        var brandOpacity = calcOverlayOpacity(progress, 0.88, 0.94, 1.0, 1.0);
+        var brandScale   = 0.7 + (brandOpacity * 0.3);  // 0.7 → 1.0
+        textBrand.style.opacity   = brandOpacity;
+        textBrand.style.transform = 'translate(-50%, -50%) scale(' + brandScale.toFixed(3) + ')';
 
         // ── Scroll Indicator: hide after 2% scroll ──
         if (progress > 0.02) {
@@ -250,7 +259,6 @@
                 end: 'bottom bottom',     // Pin ends when section bottom reaches viewport bottom
                 pin: canvasWrap,          // Pin the canvas container
                 scrub: SCRUB_SMOOTHING,   // Smooth scrub with 0.6s lag
-                // invalidateOnRefresh: true,
 
                 /* Called on every scroll update (after scrub smoothing) */
                 onUpdate: function (self) {
@@ -264,14 +272,10 @@
             }
         });
 
-        // Render the first frame immediately
+        // Render the first frame immediately (no text shown at 0%)
         renderFrame(0);
 
-        // Show the brand text initially
-        textBrand.style.opacity = 1;
-        textBrand.style.transform = 'translate(-50%, -50%) translateY(0)';
-
-        console.log('[ScrollEngine] ScrollTrigger initialized');
+        console.log('[ScrollEngine] ScrollTrigger initialized — new cinematic flow');
     }
 
 

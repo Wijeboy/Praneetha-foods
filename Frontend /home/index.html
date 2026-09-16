@@ -119,42 +119,43 @@
                 <!-- Gradient overlays for text readability over frames -->
                 <div class="hero__gradient-overlay" aria-hidden="true"></div>
 
-                <!-- ── Text Overlay 1: BRAND REVEAL (0–15% scroll) ── -->
-                <!-- Massive brand name with 3D tilt entrance animation -->
+                <!-- ═══════════════════════════════════════════════════
+                     CINEMATIC TEXT OVERLAY FLOW:
+                     
+                     0–10%   → Pure frames only (no text, let visuals breathe)
+                     10–30%  → Story Text 1: slides in from LEFT, wipes out
+                     35–55%  → Story Text 2: slides in from RIGHT, wipes out
+                     60–80%  → Story Text 3: slides in from LEFT, wipes out
+                     90–100% → BRAND CLIMAX: scales in dramatically, STAYS
+                     ═══════════════════════════════════════════════════ -->
+
+                <!-- ── Story Text 1: WOOD-FIRE (10–30% scroll) ── -->
+                <!-- Slides in from the left edge -->
+                <div class="hero__text hero__text--story hero__text--left" id="heroTextStory1">
+                    <h2 class="hero__heading">Traditional<br><span class="text-gradient">Wood-Fire</span><br>Cooking</h2>
+                    <p class="hero__desc">Slow-cooked over crackling firewood, just like our grandmothers did in the village</p>
+                </div>
+
+                <!-- ── Story Text 2: VILLAGE SPICES (35–55% scroll) ── -->
+                <!-- Slides in from the right edge -->
+                <div class="hero__text hero__text--story hero__text--right" id="heroTextStory2">
+                    <h2 class="hero__heading">Handpicked<br><span class="text-gradient">Village Spices</span></h2>
+                    <p class="hero__desc">Fresh chillies, roasted curry leaves, and stone-ground spice blends from local Sri Lankan farms</p>
+                </div>
+
+                <!-- ── Story Text 3: CLAY POT (60–80% scroll) ── -->
+                <!-- Slides in from the left edge -->
+                <div class="hero__text hero__text--story hero__text--left" id="heroTextStory3">
+                    <h2 class="hero__heading">Authentic<br><span class="text-gradient">Clay Pot</span><br>Recipes</h2>
+                    <p class="hero__desc">Every dish simmered to perfection in traditional earthen pots — the soul of Sri Lankan flavour</p>
+                </div>
+
+                <!-- ── Brand Climax: PRANEETHA (90–100% scroll) ── -->
+                <!-- Dramatically scales in when the food is fully assembled -->
                 <div class="hero__text hero__text--brand" id="heroTextBrand">
                     <h1 class="hero__title">PRANEETHA</h1>
                     <p class="hero__subtitle-sinhala">ගමේ බත් කඩේ</p>
                     <p class="hero__tagline">Spicy Taste</p>
-                </div>
-
-                <!-- ── Text Overlay 2: TRADITION (20–40% scroll) ── -->
-                <!-- Left-aligned floating text with parallax offset -->
-                <div class="hero__text hero__text--tradition" id="heroTextTradition">
-                    <h2 class="hero__heading">Traditional<br>Sri Lankan<br>Flavours</h2>
-                    <p class="hero__desc">Recipes passed through generations of village kitchens</p>
-                </div>
-
-                <!-- ── Text Overlay 3: FIRE & PASSION (45–65% scroll) ── -->
-                <!-- Right-aligned, synced with fire frames appearing -->
-                <div class="hero__text hero__text--fire" id="heroTextFire">
-                    <h2 class="hero__heading">Crafted With<br><span class="text-gradient">Fire &amp; Passion</span></h2>
-                    <p class="hero__desc">Where every flame tells a story</p>
-                </div>
-
-                <!-- ── Text Overlay 4: FEAST (70–85% scroll) ── -->
-                <!-- Center text as food assembles into the clay pot -->
-                <div class="hero__text hero__text--feast" id="heroTextFeast">
-                    <h2 class="hero__heading">A Feast For<br>Every Sense</h2>
-                    <p class="hero__desc">Taste the soul of Sri Lanka in every bite</p>
-                </div>
-
-                <!-- ── Text Overlay 5: CTA (88–100% scroll) ── -->
-                <!-- Animated "Order Now" button appears at sequence end -->
-                <div class="hero__text hero__text--cta" id="heroTextCTA">
-                    <a href="#cta" class="hero__cta-btn" id="heroCTABtn">
-                        <span>Order Now</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </a>
                 </div>
 
                 <!-- ── Scroll Indicator ── -->

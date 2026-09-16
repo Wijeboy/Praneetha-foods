@@ -550,98 +550,28 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
 }
 
-/* Tradition text — left aligned */
-.hero__text--tradition {
+/* Story text — shared base for side-sliding overlays */
+.hero__text--story {
     top: 50%;
-    left: 8%;
     transform: translateY(-50%);
-    max-width: 500px;
+    max-width: 520px;
+    padding: 0 var(--space-xl);
 }
 
-/* Fire text — right aligned */
-.hero__text--fire {
-    top: 50%;
-    right: 8%;
-    transform: translateY(-50%);
+/* Left-aligned story text */
+.hero__text--left {
+    left: 6%;
+    text-align: left;
+}
+
+/* Right-aligned story text */
+.hero__text--right {
+    right: 6%;
     text-align: right;
-    max-width: 500px;
 }
 
-/* Feast text — centered */
-.hero__text--feast {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    max-width: 600px;
-}
-
-/* CTA text — center-bottom */
-.hero__text--cta {
-    bottom: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-}
-
-/* Shared heading style for overlay texts */
-.hero__heading {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    color: var(--color-text);
-    margin-bottom: var(--space-lg);
-    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
-    line-height: 1.1;
-}
-
-/* Shared description style */
-.hero__desc {
-    font-size: clamp(1rem, 1.5vw, 1.15rem);
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    max-width: 400px;
-}
-
-/* Position adjustments for right-aligned text */
-.hero__text--fire .hero__desc {
+.hero__text--right .hero__desc {
     margin-left: auto;
-}
-
-.hero__text--feast .hero__desc {
-    margin: 0 auto;
-}
-
-/* ── Hero CTA Button ── */
-.hero__cta-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: 16px 40px;
-    background: var(--color-primary);
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 600;
-    font-family: var(--font-body);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-radius: var(--radius-full);
-    transition: all var(--transition-base);
-    cursor: pointer;
-    box-shadow: var(--shadow-primary-glow);
-    pointer-events: auto;
-}
-
-.hero__cta-btn:hover {
-    background: var(--color-primary-dark);
-    transform: scale(1.05);
-    box-shadow: 0 0 50px rgba(220, 38, 38, 0.6);
-}
-
-.hero__cta-btn svg {
-    transition: transform var(--transition-base);
-}
-
-.hero__cta-btn:hover svg {
-    transform: translateX(4px);
 }
 
 
@@ -1310,19 +1240,17 @@ h1, h2, h3, h4, h5, h6 {
         display: flex;
     }
 
-    /* Hero text: center everything on mobile */
-    .hero__text--tradition,
-    .hero__text--fire {
-        left: 50%;
-        right: auto;
+    /* Hero text: center story texts on mobile */
+    .hero__text--story {
+        left: 50% !important;
+        right: auto !important;
         transform: translate(-50%, -50%);
         text-align: center;
         max-width: 90%;
         padding: 0 var(--space-md);
     }
 
-    .hero__text--fire .hero__desc,
-    .hero__text--tradition .hero__desc {
+    .hero__text--story .hero__desc {
         margin: 0 auto;
     }
 
