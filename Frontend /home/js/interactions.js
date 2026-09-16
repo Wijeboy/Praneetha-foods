@@ -344,10 +344,19 @@
     // Calculate on load and resize
     updateFooterHeight();
     window.addEventListener('resize', function () {
-        // Debounce
         clearTimeout(updateFooterHeight._timer);
-        updateFooterHeight._timer = setTimeout(updateFooterHeight, 200);
+        updateFooterHeight._timer = setTimeout(updateFooterHeight, 150);
     });
+    window.addEventListener('load', updateFooterHeight);
+
+    // Modern ResizeObserver for zero-delay synchronization
+    var footerEl = document.getElementById('footer');
+    if (footerEl && typeof ResizeObserver !== 'undefined') {
+        var footerObserver = new ResizeObserver(function () {
+            updateFooterHeight();
+        });
+        footerObserver.observe(footerEl);
+    }
 
 
     /* ═══════════════════════════════════════════════════════
@@ -490,12 +499,13 @@
 
 
     /* ═══════════════════════════════════════════════════════
-       9. LOCATION MAP — 3D TILT ON SCROLL ENTRANCE
+       9. LOCATION MAP — 3D TILT ON SCROLL ENTRANCE & MOUSEMOVE
        
        As the map scrolls into view, it tilts and then
        levels out (from perspective + rotateX). Uses
        ScrollTrigger with scrub for premium feel.
-       On mousemove, applies subtle interactive tilt.
+       On mousemove, applies interactive 3D perspective tilt
+       and dynamic specular glare reflection.
        ═══════════════════════════════════════════════════════ */
     function initMapTilt() {
         if (prefersReduced) return;
@@ -503,11 +513,12 @@
 
         var mapWrap = document.getElementById('locationMapWrap');
         var map     = document.getElementById('locationMap');
+        var glare   = document.getElementById('locationMapGlare');
         if (!mapWrap || !map) return;
 
         /* Scroll-driven entrance: tilts in from a slight angle */
         gsap.fromTo(mapWrap,
-            { rotateX: 18, rotateY: -10, scale: 0.88, opacity: 0 },
+            { rotateX: 18, rotateY: -10, scale: 0.92, opacity: 0 },
             {
                 rotateX: 0,
                 rotateY: 0,
@@ -517,14 +528,14 @@
                 scrollTrigger: {
                     trigger: mapWrap,
                     start: 'top 85%',
-                    end: 'top 40%',
+                    end: 'top 45%',
                     scrub: 1
                 }
             }
         );
 
-        /* Interactive mouse-over tilt on the map card */
-        var maxTilt = 10; /* degrees */
+        /* Interactive mouse-over 3D tilt + dynamic specular glare */
+        var maxTilt = 12; /* degrees */
 
         mapWrap.addEventListener('mousemove', function (e) {
             var rect = mapWrap.getBoundingClientRect();
@@ -536,10 +547,16 @@
             gsap.to(map, {
                 rotateX: rx,
                 rotateY: ry,
-                duration: 0.5,
+                duration: 0.4,
                 ease: 'power2.out',
                 transformPerspective: 1200
             });
+
+            if (glare) {
+                var px = ((e.clientX - rect.left) / rect.width) * 100;
+                var py = ((e.clientY - rect.top) / rect.height) * 100;
+                glare.style.background = 'radial-gradient(circle at ' + px.toFixed(1) + '% ' + py.toFixed(1) + '%, rgba(255, 255, 255, 0.16) 0%, transparent 65%)';
+            }
         });
 
         mapWrap.addEventListener('mouseleave', function () {
@@ -598,6 +615,21 @@
     }
 
     initLocationReveal();
+
+
+    /* ═══════════════════════════════════════════════════════
+       11. BACK TO TOP SMOOTH SCROLL
+       ═══════════════════════════════════════════════════════ */
+    var backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
 
     console.log('[Interactions] All micro-interactions initialized');
