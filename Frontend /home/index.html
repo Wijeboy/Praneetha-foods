@@ -28,7 +28,7 @@
     <!-- ═══════════════════════════════════════════════════════════
          STYLESHEET
          ═══════════════════════════════════════════════════════════ -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2.0">
 </head>
 
 <body class="is-loading">
@@ -183,141 +183,603 @@
 
 
         <!-- ─────────────────────────────────────────────────────
-             SECTION 2: 3D BENTO BOX FEATURES GRID
-             
-             Asymmetric CSS Grid with glassmorphism cards.
-             Each card has:
-             • 3D tilt effect on mousemove (via bento-tilt.js)
-             • Radial glow that follows the cursor
-             • Staggered scroll-triggered entrance (via GSAP)
-             
-             Layout (desktop):
-             ┌──────────────────┬──────────┐
-             │  Authentic       │  Fresh   │
-             │  Recipes (wide)  │  Daily   │
-             ├──────────┬───────┴──────────┤
-             │  Fiery   │  Order Online    │
-             │ Flavours │  (wide + CTA)    │
-             └──────────┴──────────────────┘
+             SECTION 2: FEATURED DISHES — PINNED 50/50 SPLIT SHOWCASE
+             Strict 50/50 Split:
+             • Left side: Typography, storytelling, tags & price
+             • Right side: Massive high-quality food photography
+             • Pinned via GSAP ScrollTrigger (pin: true)
              ───────────────────────────────────────────────────── -->
-        <section id="features" class="features">
-            <div class="features__container">
-                <!-- Section Header -->
-                <div class="features__header" id="featuresHeader">
-                    <p class="features__label">Why Praneetha</p>
-                    <h2 class="features__title">The Art of<br><span class="text-gradient">Village Cooking</span></h2>
-                </div>
+        <section id="menu" class="dishes-showcase" aria-label="Featured Signature Dishes">
+            <div class="dishes-split" id="dishesSplit">
 
-                <!-- Bento Grid -->
-                <div class="bento-grid" id="bentoGrid">
+                <!-- ── LEFT 50%: Typography & Story Slides ── -->
+                <div class="dishes-left" id="dishesLeft">
 
-                    <!-- ── Card 1: Authentic Recipes (Wide Left) ── -->
-                    <div class="bento-card bento-card--wide" data-tilt>
-                        <div class="bento-card__glow" aria-hidden="true"></div>
-                        <div class="bento-card__content">
-                            <div class="bento-card__icon-wrap">
-                                <!-- Lucide: chef-hat -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path
-                                        d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.646-7.544 6 6 0 0 0-11.162 0A4 4 0 0 0 2.273 14.61c.411.197.727.584.727 1.04V20a1 1 0 0 0 1 1Z" />
-                                    <path d="M6 17h12" />
-                                </svg>
-                            </div>
-                            <div class="bento-card__stat">3<span class="bento-card__stat-unit">Gen</span></div>
-                            <h3 class="bento-card__title">Authentic Recipes</h3>
-                            <p class="bento-card__desc">Village-style cooking passed through three generations. Every
-                                dish tells the story of our grandmother's kitchen — clay pots, wood fire, and recipes
-                                perfected over decades.</p>
+                    <!-- Slide 1: Village Clay Pot Feast -->
+                    <div class="dish-slide dish-slide--active" data-dish="0">
+                        <div class="dish-slide__kicker">
+                            <span class="dish-slide__badge">Signature Dish</span>
+                            <span class="dish-slide__num">01 / 04</span>
                         </div>
-                    </div>
-
-                    <!-- ── Card 2: Fresh Daily ── -->
-                    <div class="bento-card" data-tilt>
-                        <div class="bento-card__glow" aria-hidden="true"></div>
-                        <div class="bento-card__content">
-                            <div class="bento-card__icon-wrap bento-card__icon-wrap--green">
-                                <!-- Lucide: leaf -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path
-                                        d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z" />
-                                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
-                                </svg>
-                            </div>
-                            <div class="bento-card__stat">5<span class="bento-card__stat-unit">AM</span></div>
-                            <h3 class="bento-card__title">Fresh Daily</h3>
-                            <p class="bento-card__desc">Ingredients sourced from local markets before dawn every single
-                                morning.</p>
+                        <h2 class="dish-slide__title">
+                            <span class="dish-slide__word">Village</span>
+                            <span class="dish-slide__word">Clay Pot</span>
+                            <span class="dish-slide__word text-gradient">Feast</span>
+                        </h2>
+                        <p class="dish-slide__desc">Slow-simmered in an authentic clay pot over red-hot wood-fire embers. Fragrant village rice crowned with spiced roasted chicken, creamy tempered dhal, and freshly pounded spicy pol sambol.</p>
+                        <div class="dish-slide__tags">
+                            <span class="dish-tag">Earthen Clay Pot</span>
+                            <span class="dish-tag">Wood-Fired</span>
+                            <span class="dish-tag">Generational Recipe</span>
                         </div>
-                    </div>
-
-                    <!-- ── Card 3: Fiery Flavours ── -->
-                    <div class="bento-card" data-tilt>
-                        <div class="bento-card__glow" aria-hidden="true"></div>
-                        <div class="bento-card__content">
-                            <div class="bento-card__icon-wrap bento-card__icon-wrap--fire">
-                                <!-- Lucide: flame -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path
-                                        d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-                                </svg>
+                        <div class="dish-slide__footer">
+                            <div class="dish-price-wrap">
+                                <span class="dish-price__label">House Special</span>
+                                <span class="dish-price__value">LKR 1,850</span>
                             </div>
-                            <div class="bento-card__stat">20<span class="bento-card__stat-unit">+</span></div>
-                            <h3 class="bento-card__title">Fiery Flavours</h3>
-                            <p class="bento-card__desc">Signature spice blends that ignite your palate with authentic
-                                Sri Lankan heat.</p>
-                        </div>
-                    </div>
-
-                    <!-- ── Card 4: Order Online (Wide Right + CTA) ── -->
-                    <div class="bento-card bento-card--wide bento-card--cta" data-tilt>
-                        <div class="bento-card__glow" aria-hidden="true"></div>
-                        <div class="bento-card__content">
-                            <div class="bento-card__icon-wrap bento-card__icon-wrap--gold">
-                                <!-- Lucide: bike (delivery) -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <circle cx="18.5" cy="17.5" r="3.5" />
-                                    <circle cx="5.5" cy="17.5" r="3.5" />
-                                    <circle cx="15" cy="5" r="1" />
-                                    <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
-                                </svg>
-                            </div>
-                            <div class="bento-card__stat">30<span class="bento-card__stat-unit">min</span></div>
-                            <h3 class="bento-card__title">Order Online</h3>
-                            <p class="bento-card__desc">Hot meals delivered to your doorstep. Fresh from our kitchen to
-                                your table in 30 minutes.</p>
-                            <a href="#cta" class="bento-card__btn">
-                                <span>Start Your Order</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M5 12h14" />
-                                    <path d="m12 5 7 7-7 7" />
-                                </svg>
+                            <a href="#cta" class="dish-order-btn">
+                                <span>Order Dish</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                             </a>
                         </div>
                     </div>
 
-                </div><!-- /.bento-grid -->
-            </div><!-- /.features__container -->
+                    <!-- Slide 2: Creamy Coconut Kiri Hodhi -->
+                    <div class="dish-slide" data-dish="1">
+                        <div class="dish-slide__kicker">
+                            <span class="dish-slide__badge">Signature Dish</span>
+                            <span class="dish-slide__num">02 / 04</span>
+                        </div>
+                        <h2 class="dish-slide__title">
+                            <span class="dish-slide__word">Creamy</span>
+                            <span class="dish-slide__word">Coconut</span>
+                            <span class="dish-slide__word text-gradient">Kiri Hodhi</span>
+                        </h2>
+                        <p class="dish-slide__desc">A velvety golden curry made from first-press coconut milk, aromatic Ceylon turmeric, fenugreek, and tempered curry leaves. The comforting, soul-nourishing center of every Sri Lankan table.</p>
+                        <div class="dish-slide__tags">
+                            <span class="dish-tag">Aromatic Mild</span>
+                            <span class="dish-tag">Fresh Coconut Milk</span>
+                            <span class="dish-tag">Heritage Classic</span>
+                        </div>
+                        <div class="dish-slide__footer">
+                            <div class="dish-price-wrap">
+                                <span class="dish-price__label">Traditional</span>
+                                <span class="dish-price__value">LKR 1,250</span>
+                            </div>
+                            <a href="#cta" class="dish-order-btn">
+                                <span>Order Dish</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Dutch-Era Lamprais -->
+                    <div class="dish-slide" data-dish="2">
+                        <div class="dish-slide__kicker">
+                            <span class="dish-slide__badge">Signature Dish</span>
+                            <span class="dish-slide__num">03 / 04</span>
+                        </div>
+                        <h2 class="dish-slide__title">
+                            <span class="dish-slide__word">Dutch-Era</span>
+                            <span class="dish-slide__word">Banana-Leaf</span>
+                            <span class="dish-slide__word text-gradient">Lamprais</span>
+                        </h2>
+                        <p class="dish-slide__desc">Ghee-boiled short-grain samba rice, slow-cooked meat curry, frikkadel meatballs, and sweet-caramelized seeni sambol — bundled inside a charred banana leaf and baked until every grain is infused with aroma.</p>
+                        <div class="dish-slide__tags">
+                            <span class="dish-tag">Dutch Burgher</span>
+                            <span class="dish-tag">Banana Leaf Baked</span>
+                            <span class="dish-tag">Chef's Choice</span>
+                        </div>
+                        <div class="dish-slide__footer">
+                            <div class="dish-price-wrap">
+                                <span class="dish-price__label">Signature</span>
+                                <span class="dish-price__value">LKR 2,400</span>
+                            </div>
+                            <a href="#cta" class="dish-order-btn">
+                                <span>Order Dish</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Fiery Street-Style Kottu Roti -->
+                    <div class="dish-slide" data-dish="3">
+                        <div class="dish-slide__kicker">
+                            <span class="dish-slide__badge">Signature Dish</span>
+                            <span class="dish-slide__num">04 / 04</span>
+                        </div>
+                        <h2 class="dish-slide__title">
+                            <span class="dish-slide__word">Fiery</span>
+                            <span class="dish-slide__word">Street-Style</span>
+                            <span class="dish-slide__word text-gradient">Kottu Roti</span>
+                        </h2>
+                        <p class="dish-slide__desc">Flaky shredded godamba flatbread chopped rhythmically on a scorching griddle with spiced chicken cubes, scrambled eggs, garden leeks, and our fiery house chili reduction.</p>
+                        <div class="dish-slide__tags">
+                            <span class="dish-tag">Fiery Heat</span>
+                            <span class="dish-tag">Iron Griddle Sizzle</span>
+                            <span class="dish-tag">Colombo Legend</span>
+                        </div>
+                        <div class="dish-slide__footer">
+                            <div class="dish-price-wrap">
+                                <span class="dish-price__label">Street Classic</span>
+                                <span class="dish-price__value">LKR 1,650</span>
+                            </div>
+                            <a href="#cta" class="dish-order-btn">
+                                <span>Order Dish</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Pinned Indicators -->
+                    <div class="dish-controls">
+                        <div class="dish-dots">
+                            <button class="dish-dot is-active" data-index="0" aria-label="Go to Dish 1"></button>
+                            <button class="dish-dot" data-index="1" aria-label="Go to Dish 2"></button>
+                            <button class="dish-dot" data-index="2" aria-label="Go to Dish 3"></button>
+                            <button class="dish-dot" data-index="3" aria-label="Go to Dish 4"></button>
+                        </div>
+                        <div class="dish-hint">
+                            <span>Scroll to explore signature dishes</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 10 5 5 5-5"/></svg>
+                        </div>
+                    </div>
+
+                </div><!-- /.dishes-left -->
+
+
+                <!-- ── RIGHT 50%: Massive Food Photography Showcase ── -->
+                <div class="dishes-right" id="dishesRight">
+                    <div class="dishes-stage">
+                        <!-- Ambient halo glow -->
+                        <div class="dishes-stage__halo" aria-hidden="true"></div>
+
+                        <!-- Dish 1 Photo -->
+                        <div class="dish-photo-card dish-photo-card--active" data-dish-img="0">
+                            <div class="dish-photo-card__frame">
+                                <img src="assets/dish-1.jpg" alt="Sri Lankan Village Clay Pot Feast" class="dish-photo" loading="eager">
+                            </div>
+                        </div>
+
+                        <!-- Dish 2 Photo -->
+                        <div class="dish-photo-card" data-dish-img="1">
+                            <div class="dish-photo-card__frame">
+                                <img src="assets/dish-2.jpg" alt="Golden Creamy Coconut Kiri Hodhi" class="dish-photo" loading="lazy">
+                            </div>
+                        </div>
+
+                        <!-- Dish 3 Photo -->
+                        <div class="dish-photo-card" data-dish-img="2">
+                            <div class="dish-photo-card__frame">
+                                <img src="assets/dish-3.jpg" alt="Traditional Dutch-Era Lamprais on Banana Leaf" class="dish-photo" loading="lazy">
+                            </div>
+                        </div>
+
+                        <!-- Dish 4 Photo -->
+                        <div class="dish-photo-card" data-dish-img="3">
+                            <div class="dish-photo-card__frame">
+                                <img src="assets/dish-4.jpg" alt="Fiery Street-Style Sri Lankan Kottu Roti" class="dish-photo" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.dishes-right -->
+
+            </div><!-- /.dishes-split -->
         </section>
 
 
         <!-- ─────────────────────────────────────────────────────
-             SECTION 3: IMMERSIVE CALL TO ACTION
+             SECTION 3: CUSTOMER FEEDBACK MARQUEE
+             Infinite seamless horizontal scrolling train of
+             floating glassmorphism cards moving in an infinite loop.
+             Row 1 moves left, Row 2 moves right.
+             ───────────────────────────────────────────────────── -->
+        <section id="about" class="testimonials" aria-label="Customer Reviews">
+            <div class="testimonials__header">
+                <span class="testimonials__eyebrow">Guest Experiences</span>
+                <h2 class="testimonials__title">Loved by Locals, <span class="text-gradient">Celebrated</span> Worldwide</h2>
+                <p class="testimonials__subtitle">Genuine words from diners who crave the uncompromising fire, spice, and warmth of our kitchen.</p>
+            </div>
+
+            <!-- Row 1: Infinite Marquee Left -->
+            <div class="marquee-container" aria-label="Customer testimonials row 1">
+                <div class="marquee-track marquee-track--left">
+                    <!-- Card 1 -->
+                    <article class="glass-testimonial-card">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Verified Diner</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"The Kottu Roti took me straight back to Pettah market at midnight. The aroma of roasted curry powder and wood smoke is completely intoxicating."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">KS</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Kavindra Senanayake</h4>
+                                <span class="glass-testimonial-card__location">Colombo 07</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="glass-testimonial-card">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Food Critic</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Kiri Hodhi tasted exactly like my grandmother’s clay pot recipe in Galle. My parents were in tears — this is unapologetic, genuine village cooking."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">PN</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Dr. Priya Nirmal</h4>
+                                <span class="glass-testimonial-card__location">Galle Fort</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="glass-testimonial-card">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Family Feast</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"We ordered the Lamprais for a 14-guest family reunion. Not a single grain of rice was left over. The spiced aroma inside the banana leaf was sheer perfection."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">RP</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Rohan Perera</h4>
+                                <span class="glass-testimonial-card__location">Kandy</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4 -->
+                    <article class="glass-testimonial-card">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Delivery Regular</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"The wood-fire aroma that bursts out of the delivery parcel is unbelievable. Piping hot, packaged sustainably, and flavors that awaken every sense."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">DW</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Dilini Wickremasinghe</h4>
+                                <span class="glass-testimonial-card__location">Negombo</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Duplicate for infinite seamless marquee loop -->
+                    <article class="glass-testimonial-card" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Verified Diner</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"The Kottu Roti took me straight back to Pettah market at midnight. The aroma of roasted curry powder and wood smoke is completely intoxicating."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">KS</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Kavindra Senanayake</h4>
+                                <span class="glass-testimonial-card__location">Colombo 07</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="glass-testimonial-card" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Food Critic</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Kiri Hodhi tasted exactly like my grandmother’s clay pot recipe in Galle. My parents were in tears — this is unapologetic, genuine village cooking."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">PN</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Dr. Priya Nirmal</h4>
+                                <span class="glass-testimonial-card__location">Galle Fort</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="glass-testimonial-card" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Family Feast</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"We ordered the Lamprais for a 14-guest family reunion. Not a single grain of rice was left over. The spiced aroma inside the banana leaf was sheer perfection."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">RP</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Rohan Perera</h4>
+                                <span class="glass-testimonial-card__location">Kandy</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="glass-testimonial-card" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Delivery Regular</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"The wood-fire aroma that bursts out of the delivery parcel is unbelievable. Piping hot, packaged sustainably, and flavors that awaken every sense."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">DW</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Dilini Wickremasinghe</h4>
+                                <span class="glass-testimonial-card__location">Negombo</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <!-- Row 2: Infinite Marquee Right -->
+            <div class="marquee-container" aria-label="Customer testimonials row 2">
+                <div class="marquee-track marquee-track--right">
+                    <!-- Card 5 -->
+                    <article class="glass-testimonial-card glass-testimonial-card--accent">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">VIP Regular</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Best 30-minute delivery in Colombo. The clay pot fish ambul thiyal is simply incomparable. Three generations of recipe mastery shine through every bite."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">SB</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Sahan Bandaranaike</h4>
+                                <span class="glass-testimonial-card__location">Dehiwala</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 6 -->
+                    <article class="glass-testimonial-card glass-testimonial-card--accent">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">International Diner</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Ordered for our multinational corporate team. Colleagues from France, Japan, and Singapore were completely stunned by the depth and balance of the spices."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">SM</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Sarah Mitchell</h4>
+                                <span class="glass-testimonial-card__location">Colombo 03</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 7 -->
+                    <article class="glass-testimonial-card glass-testimonial-card--accent">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Spice Enthusiast</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"The spice profile is genuine Sri Lankan fire. Not watered down, not diluted for tourists. Rich, uncompromised, and deeply nourishing comfort food."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">KD</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Kevin De Silva</h4>
+                                <span class="glass-testimonial-card__location">Mount Lavinia</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 8 -->
+                    <article class="glass-testimonial-card glass-testimonial-card--accent">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Sweet Connoisseur</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Rich kithul treacle aroma, roasted cashew crunch, and silky custard texture. Without a doubt the finest village dining experience in the country."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">AF</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Amara Fernando</h4>
+                                <span class="glass-testimonial-card__location">Colombo</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Duplicate for infinite seamless marquee loop -->
+                    <article class="glass-testimonial-card glass-testimonial-card--accent" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">VIP Regular</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Best 30-minute delivery in Colombo. The clay pot fish ambul thiyal is simply incomparable. Three generations of recipe mastery shine through every bite."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">SB</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Sahan Bandaranaike</h4>
+                                <span class="glass-testimonial-card__location">Dehiwala</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="glass-testimonial-card glass-testimonial-card--accent" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">International Diner</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Ordered for our multinational corporate team. Colleagues from France, Japan, and Singapore were completely stunned by the depth and balance of the spices."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">SM</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Sarah Mitchell</h4>
+                                <span class="glass-testimonial-card__location">Colombo 03</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="glass-testimonial-card glass-testimonial-card--accent" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Spice Enthusiast</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"The spice profile is genuine Sri Lankan fire. Not watered down, not diluted for tourists. Rich, uncompromised, and deeply nourishing comfort food."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">KD</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Kevin De Silva</h4>
+                                <span class="glass-testimonial-card__location">Mount Lavinia</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="glass-testimonial-card glass-testimonial-card--accent" aria-hidden="true">
+                        <div class="glass-testimonial-card__top">
+                            <div class="glass-testimonial-card__stars">★★★★★</div>
+                            <span class="glass-testimonial-card__pill">Sweet Connoisseur</span>
+                        </div>
+                        <p class="glass-testimonial-card__quote">"Rich kithul treacle aroma, roasted cashew crunch, and silky custard texture. Without a doubt the finest village dining experience in the country."</p>
+                        <div class="glass-testimonial-card__author">
+                            <div class="glass-testimonial-card__avatar">AF</div>
+                            <div class="glass-testimonial-card__info">
+                                <h4 class="glass-testimonial-card__name">Amara Fernando</h4>
+                                <span class="glass-testimonial-card__location">Colombo</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ─────────────────────────────────────────────────────
+             SECTION 4: SHOP DETAILS & LOCATION
              
-             Full-width centered section with:
-             • Massive serif heading
-             • Magnetic hover button (follows cursor subtly)
-             • Liquid glow hover state
-             • Decorative ember particles (CSS-only)
+             Sleek details panel + dark map container.
+             The map panel has a GSAP-driven 3D tilt on scroll.
+             ───────────────────────────────────────────────────── -->
+        <section id="contact" class="location-section">
+            <div class="location-section__container">
+
+                <!-- Left: Details -->
+                <div class="location-details">
+                    <p class="location-details__label">Find Us</p>
+                    <h2 class="location-details__title">Visit the <span class="text-gradient">Spice House</span></h2>
+                    <p class="location-details__intro">Step into our kitchen. The fire is always burning — and there's always a table for you.</p>
+
+                    <div class="location-details__grid">
+                        <div class="location-detail-item">
+                            <div class="location-detail-item__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <div class="location-detail-item__content">
+                                <h4>Address</h4>
+                                <p>42 Temple Road, Wellawatte<br>Colombo 06, Sri Lanka</p>
+                            </div>
+                        </div>
+
+                        <div class="location-detail-item">
+                            <div class="location-detail-item__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <div class="location-detail-item__content">
+                                <h4>Opening Hours</h4>
+                                <p>Mon – Sat: 10:00 AM – 10:00 PM<br>Sunday: 11:00 AM – 9:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="location-detail-item">
+                            <div class="location-detail-item__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </div>
+                            <div class="location-detail-item__content">
+                                <h4>Reservations</h4>
+                                <p>+94 77 123 4567<br>hello@praneethafoods.lk</p>
+                            </div>
+                        </div>
+
+                        <div class="location-detail-item">
+                            <div class="location-detail-item__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg>
+                            </div>
+                            <div class="location-detail-item__content">
+                                <h4>Delivery</h4>
+                                <p>Colombo 1–10, Dehiwala, Nugegoda<br>avg. 30 min · order via WhatsApp</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Map Container with 3D Tilt -->
+                <div class="location-map-wrap" id="locationMapWrap">
+                    <div class="location-map" id="locationMap">
+                        <!-- Dark-styled map placeholder -->
+                        <div class="location-map__visual" aria-label="Restaurant location map">
+                            <svg viewBox="0 0 600 440" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                                <!-- Dark map background -->
+                                <rect width="600" height="440" fill="#0a0a0f"/>
+                                <!-- Grid roads -->
+                                <g stroke="#1a1a2e" stroke-width="1" opacity="0.6">
+                                    <line x1="0" y1="110" x2="600" y2="110"/>
+                                    <line x1="0" y1="220" x2="600" y2="220"/>
+                                    <line x1="0" y1="330" x2="600" y2="330"/>
+                                    <line x1="150" y1="0" x2="150" y2="440"/>
+                                    <line x1="300" y1="0" x2="300" y2="440"/>
+                                    <line x1="450" y1="0" x2="450" y2="440"/>
+                                </g>
+                                <!-- Main roads -->
+                                <g fill="none" stroke="#1f2937" stroke-width="8" stroke-linecap="round">
+                                    <line x1="0" y1="220" x2="600" y2="220"/>
+                                    <line x1="300" y1="0" x2="300" y2="440"/>
+                                    <line x1="100" y1="0" x2="180" y2="440"/>
+                                    <line x1="0" y1="300" x2="600" y2="140"/>
+                                </g>
+                                <!-- Blocks -->
+                                <g fill="#111827" opacity="0.8">
+                                    <rect x="20" y="20" width="110" height="80" rx="4"/>
+                                    <rect x="160" y="20" width="120" height="80" rx="4"/>
+                                    <rect x="320" y="20" width="90" height="80" rx="4"/>
+                                    <rect x="440" y="20" width="140" height="80" rx="4"/>
+                                    <rect x="20" y="130" width="85" height="75" rx="4"/>
+                                    <rect x="420" y="130" width="160" height="75" rx="4"/>
+                                    <rect x="20" y="240" width="100" height="70" rx="4"/>
+                                    <rect x="160" y="240" width="110" height="70" rx="4"/>
+                                    <rect x="460" y="240" width="120" height="70" rx="4"/>
+                                    <rect x="20" y="350" width="80" height="70" rx="4"/>
+                                    <rect x="320" y="350" width="140" height="70" rx="4"/>
+                                    <rect x="480" y="350" width="100" height="70" rx="4"/>
+                                </g>
+                                <!-- Green area -->
+                                <ellipse cx="310" cy="185" rx="70" ry="25" fill="#14532d" opacity="0.4"/>
+                                <!-- Location pin -->
+                                <g transform="translate(290, 155)">
+                                    <circle cx="10" cy="10" r="28" fill="#DC2626" opacity="0.2"/>
+                                    <circle cx="10" cy="10" r="16" fill="#DC2626" opacity="0.4"/>
+                                    <circle cx="10" cy="10" r="8" fill="#DC2626"/>
+                                    <circle cx="10" cy="10" r="3" fill="white"/>
+                                </g>
+                                <!-- Pulse ring -->
+                                <circle cx="300" cy="165" r="36" fill="none" stroke="#DC2626" stroke-width="2" opacity="0.6">
+                                    <animate attributeName="r" values="28;52;28" dur="2.4s" repeatCount="indefinite"/>
+                                    <animate attributeName="opacity" values="0.6;0;0.6" dur="2.4s" repeatCount="indefinite"/>
+                                </circle>
+                                <!-- Label -->
+                                <rect x="175" y="195" width="145" height="28" rx="14" fill="#DC2626"/>
+                                <text x="247" y="213" text-anchor="middle" fill="white" font-size="11" font-family="sans-serif" font-weight="bold" letter-spacing="1">PRANEETHA FOODS</text>
+                                <!-- Compass -->
+                                <g transform="translate(550, 25)" fill="none">
+                                    <circle cx="0" cy="0" r="18" stroke="#374151" stroke-width="1.5"/>
+                                    <text x="0" y="-6" text-anchor="middle" fill="#F59E0B" font-size="9" font-family="sans-serif" font-weight="bold">N</text>
+                                    <line x1="0" y1="-14" x2="0" y2="14" stroke="#374151" stroke-width="1"/>
+                                    <line x1="-14" y1="0" x2="14" y2="0" stroke="#374151" stroke-width="1"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <!-- Overlay badge -->
+                        <div class="location-map__badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>Wellawatte, Colombo 06</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ─────────────────────────────────────────────────────
+             SECTION 5: IMMERSIVE CALL TO ACTION
              ───────────────────────────────────────────────────── -->
         <section id="cta" class="cta-section">
             <div class="cta-section__container">

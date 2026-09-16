@@ -1,9 +1,6 @@
 /* ============================================================
    INTERACTIONS — Micro-Interactions & UI Polish
    ============================================================
-   Handles all remaining UI interactions not covered by other
-   modules:
-   
    1. Navbar scroll effect — glass-morphism on scroll
    2. Mobile hamburger menu — toggle open/close
    3. Magnetic CTA button — cursor-following hover effect
@@ -11,6 +8,8 @@
    5. Section header reveals — fade + slide animations
    6. CTA section reveal — scale + opacity entrance
    7. Smooth anchor scrolling — for navigation links
+   8. [NEW] Pinned Dishes Showcase — GSAP scrub + pin
+   9. [NEW] Location Map — 3D tilt on scroll entrance
    ============================================================ */
 
 (function () {
@@ -25,6 +24,7 @@
 
     /* ── Reduced Motion Check ─────────────────────────────── */
     var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 
 
     /* ═══════════════════════════════════════════════════════
@@ -229,11 +229,15 @@
         }
     }
 
-    // Initialize scroll reveals after the scroll engine has set up
-    // (delayed slightly to avoid conflicts with hero ScrollTrigger)
+    // Initialize scroll reveals and pinned dish showcase after hero frames load
     document.addEventListener('praneetha:framesLoaded', function () {
-        // Small delay to ensure scroll-engine.js has initialized first
-        setTimeout(initScrollReveals, 100);
+        setTimeout(function () {
+            initScrollReveals();
+            initDishShowcase();
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+            }
+        }, 120);
     });
 
     // Fallback: if frames never load (e.g., JS error), still init reveals
@@ -285,7 +289,7 @@
        ═══════════════════════════════════════════════════════ */
     function initActiveNavTracking() {
         var navLinks = document.querySelectorAll('.navbar__link');
-        var sections = ['hero', 'features', 'cta'];
+        var sections = ['hero', 'menu', 'about', 'contact', 'cta'];
 
         // Map section IDs to their nav link hrefs
         var linkMap = {};
@@ -344,6 +348,256 @@
         clearTimeout(updateFooterHeight._timer);
         updateFooterHeight._timer = setTimeout(updateFooterHeight, 200);
     });
+
+
+    /* ═══════════════════════════════════════════════════════
+       8. FEATURED DISHES — PINNED 50/50 SPLIT SHOWCASE
+       
+       Technique: pin: true on the main container (#menu) + scrub: 1
+       Strict 50/50 Split Layout:
+       • Left side:  Typography & Story slides (sliding vertically)
+       • Right side: Massive food photography (rotating into place)
+       
+       When the dishes showcase reaches the top of the viewport,
+       ScrollTrigger pins #menu in place while the user scrolls
+       through 280% of viewport height. All 4 dishes transition
+       seamlessly with rotational momentum and mask reveals.
+       ═══════════════════════════════════════════════════════ */
+    var dishShowcaseInitialized = false;
+
+    function initDishShowcase() {
+        if (dishShowcaseInitialized) return;
+        if (prefersReduced) return;
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        var showcase   = document.getElementById('menu');
+        var dishSlides = document.querySelectorAll('.dish-slide');
+        var dishPhotos = document.querySelectorAll('.dish-photo-card');
+        var dots       = document.querySelectorAll('.dish-dot');
+
+        if (!showcase || !dishSlides.length || !dishPhotos.length) return;
+
+        dishShowcaseInitialized = true;
+        gsap.registerPlugin(ScrollTrigger);
+
+        var totalDishes = dishSlides.length;
+
+        // Set clean initial state: Slide 1 and Photo 1 visible, others waiting below
+        gsap.set(dishSlides[0], { opacity: 1, yPercent: 0, autoAlpha: 1 });
+        gsap.set(dishPhotos[0], { opacity: 1, rotate: 0, scale: 1, autoAlpha: 1 });
+
+        for (var i = 1; i < totalDishes; i++) {
+            gsap.set(dishSlides[i], { opacity: 0, yPercent: 40, autoAlpha: 0 });
+            gsap.set(dishPhotos[i], { opacity: 0, rotate: 25, scale: 0.85, autoAlpha: 0 });
+        }
+
+        // Helper to update active indicator dot
+        function updateActiveDot(activeIdx) {
+            dots.forEach(function (d, idx) {
+                d.classList.toggle('is-active', idx === activeIdx);
+            });
+        }
+
+        // Master pinned timeline
+        var tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: showcase,
+                start: 'top top',
+                end: '+=280%',           // 280% extra scroll distance for 3 smooth transitions
+                pin: true,               // Pin the main container!
+                scrub: 1,                // Buttery smooth inertial scrubbing
+                anticipatePin: 1,
+                onUpdate: function (self) {
+                    var activeIdx = Math.min(totalDishes - 1, Math.floor(self.progress * totalDishes));
+                    updateActiveDot(activeIdx);
+                }
+            }
+        });
+
+        // Build transitions between consecutive dishes
+        for (var step = 0; step < totalDishes - 1; step++) {
+            var curr = step;
+            var next = step + 1;
+
+            // Dwell on current dish
+            tl.to({}, { duration: 0.5 });
+
+            // Slide out current text (slides up and fades out)
+            tl.to(dishSlides[curr], {
+                opacity: 0,
+                yPercent: -35,
+                autoAlpha: 0,
+                duration: 0.8,
+                ease: 'power2.in'
+            })
+            // Rotate out current photo (rotates counter-clockwise, scales down slightly, fades out)
+            .to(dishPhotos[curr], {
+                opacity: 0,
+                rotate: -25,
+                scale: 0.85,
+                autoAlpha: 0,
+                duration: 0.8,
+                ease: 'power2.inOut'
+            }, '<')
+
+            // Slide in next text (slides up into position)
+            .fromTo(dishSlides[next],
+                { opacity: 0, yPercent: 40, autoAlpha: 0 },
+                { opacity: 1, yPercent: 0, autoAlpha: 1, duration: 0.85, ease: 'power2.out' },
+                '-=0.3'
+            )
+            // Rotate in next photo (rotates into place from clockwise angle, scales to full size)
+            .fromTo(dishPhotos[next],
+                { opacity: 0, rotate: 25, scale: 0.85, autoAlpha: 0 },
+                { opacity: 1, rotate: 0, scale: 1, autoAlpha: 1, duration: 0.95, ease: 'power2.out' },
+                '<'
+            );
+        }
+
+        // Dwell on final dish
+        tl.to({}, { duration: 0.5 });
+
+        // Enable click on indicator dots to navigate directly
+        dots.forEach(function (dot, idx) {
+            dot.addEventListener('click', function () {
+                var st = tl.scrollTrigger;
+                if (!st) return;
+                var targetScroll = st.start + (st.end - st.start) * (idx / (totalDishes - 1));
+                window.scrollTo({
+                    top: targetScroll,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        console.log('[Interactions] Featured Dishes pinned showcase initialized');
+    }
+
+    // Initialize immediately if DOM is already fully loaded
+    if (document.readyState === 'complete') {
+        initDishShowcase();
+    } else {
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                initDishShowcase();
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.refresh();
+                }
+            }, 300);
+        });
+    }
+
+
+
+    /* ═══════════════════════════════════════════════════════
+       9. LOCATION MAP — 3D TILT ON SCROLL ENTRANCE
+       
+       As the map scrolls into view, it tilts and then
+       levels out (from perspective + rotateX). Uses
+       ScrollTrigger with scrub for premium feel.
+       On mousemove, applies subtle interactive tilt.
+       ═══════════════════════════════════════════════════════ */
+    function initMapTilt() {
+        if (prefersReduced) return;
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        var mapWrap = document.getElementById('locationMapWrap');
+        var map     = document.getElementById('locationMap');
+        if (!mapWrap || !map) return;
+
+        /* Scroll-driven entrance: tilts in from a slight angle */
+        gsap.fromTo(mapWrap,
+            { rotateX: 18, rotateY: -10, scale: 0.88, opacity: 0 },
+            {
+                rotateX: 0,
+                rotateY: 0,
+                scale: 1,
+                opacity: 1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: mapWrap,
+                    start: 'top 85%',
+                    end: 'top 40%',
+                    scrub: 1
+                }
+            }
+        );
+
+        /* Interactive mouse-over tilt on the map card */
+        var maxTilt = 10; /* degrees */
+
+        mapWrap.addEventListener('mousemove', function (e) {
+            var rect = mapWrap.getBoundingClientRect();
+            var cx   = rect.left + rect.width  / 2;
+            var cy   = rect.top  + rect.height / 2;
+            var rx   = ((e.clientY - cy) / (rect.height / 2)) * -maxTilt;
+            var ry   = ((e.clientX - cx) / (rect.width  / 2)) *  maxTilt;
+
+            gsap.to(map, {
+                rotateX: rx,
+                rotateY: ry,
+                duration: 0.5,
+                ease: 'power2.out',
+                transformPerspective: 1200
+            });
+        });
+
+        mapWrap.addEventListener('mouseleave', function () {
+            gsap.to(map, {
+                rotateX: 0,
+                rotateY: 0,
+                duration: 0.8,
+                ease: 'elastic.out(1, 0.6)'
+            });
+        });
+    }
+
+    initMapTilt();
+
+
+    /* ═══════════════════════════════════════════════════════
+       10. LOCATION DETAILS — STAGGERED ENTRANCE
+       ═══════════════════════════════════════════════════════ */
+    function initLocationReveal() {
+        if (prefersReduced) return;
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        var locationSection = document.querySelector('.location-section');
+        if (!locationSection) return;
+
+        /* Details column */
+        var detailItems = locationSection.querySelectorAll('.location-detail-item');
+        var detailsTitle = locationSection.querySelector('.location-details__title');
+
+        if (detailsTitle) {
+            gsap.from(detailsTitle, {
+                opacity: 0,
+                yPercent: 30,
+                duration: 1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: detailsTitle,
+                    start: 'top 80%'
+                }
+            });
+        }
+
+        if (detailItems.length) {
+            gsap.from(detailItems, {
+                opacity: 0,
+                x: -30,
+                duration: 0.8,
+                stagger: 0.12,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: detailItems[0],
+                    start: 'top 80%'
+                }
+            });
+        }
+    }
+
+    initLocationReveal();
 
 
     console.log('[Interactions] All micro-interactions initialized');
