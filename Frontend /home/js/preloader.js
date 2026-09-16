@@ -19,11 +19,18 @@
     const FRAME_EXT      = '.jpg';                     // File extension
     const POOL_SIZE      = 15;                         // Concurrent HTTP requests
     const MAX_RETRIES    = 2;                          // Retry attempts per frame
+    const LOGO_SRC       = 'assets/logo.png';          // Brand logo path
 
     /* ── DOM References ───────────────────────────────────── */
     const preloader      = document.getElementById('preloader');
     const barFill        = document.getElementById('preloaderBar');
     const percentText    = document.getElementById('preloaderPercent');
+    const preloaderLogo  = preloader ? preloader.querySelector('.preloader__logo') : null;
+
+    // Ensure preloader logo source points to the transparent PNG
+    if (preloaderLogo && preloaderLogo.getAttribute('src') !== LOGO_SRC) {
+        preloaderLogo.src = LOGO_SRC;
+    }
 
     /* ── Global Namespace ─────────────────────────────────── */
     // Shared namespace for cross-module communication

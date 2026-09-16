@@ -193,10 +193,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .preloader__logo {
-    width: 160px;
-    height: auto;
+    height: 52px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
     margin: 0 auto var(--space-xl);
-    border-radius: var(--radius-md);
     /* Subtle pulsing glow while loading */
     animation: pulse-glow 2s ease-in-out infinite;
 }
@@ -278,14 +279,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar__logo-img {
-    height: 48px;
+    height: 45px;
     width: auto;
-    border-radius: var(--radius-sm);
-    transition: height var(--transition-base);
+    object-fit: contain;
+    transition: height var(--transition-base), transform var(--transition-base);
 }
 
 .navbar.is-scrolled .navbar__logo-img {
-    height: 40px;
+    height: 38px;
 }
 
 /* ── Desktop Links ── */
@@ -1080,9 +1081,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer__logo {
-    width: 120px;
-    height: auto;
-    border-radius: var(--radius-sm);
+    height: 45px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
     margin-bottom: var(--space-lg);
 }
 
