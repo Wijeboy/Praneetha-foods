@@ -521,33 +521,15 @@
        ═══════════════════════════════════════════════════════ */
     function initMapTilt() {
         if (prefersReduced) return;
-        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        if (typeof gsap === 'undefined') return;
 
         var mapWrap = document.getElementById('locationMapWrap');
         var map     = document.getElementById('locationMap');
         var glare   = document.getElementById('locationMapGlare');
         if (!mapWrap || !map) return;
 
-        /* Scroll-driven entrance: tilts in from a slight angle */
-        gsap.fromTo(mapWrap,
-            { rotateX: 18, rotateY: -10, scale: 0.92, opacity: 0 },
-            {
-                rotateX: 0,
-                rotateY: 0,
-                scale: 1,
-                opacity: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: mapWrap,
-                    start: 'top 85%',
-                    end: 'top 45%',
-                    scrub: 1
-                }
-            }
-        );
-
         /* Interactive mouse-over 3D tilt + dynamic specular glare */
-        var maxTilt = 12; /* degrees */
+        var maxTilt = 10; /* degrees */
 
         mapWrap.addEventListener('mousemove', function (e) {
             var rect = mapWrap.getBoundingClientRect();
@@ -585,48 +567,91 @@
 
 
     /* ═══════════════════════════════════════════════════════
-       10. LOCATION DETAILS — STAGGERED ENTRANCE
+       10. LOCATION SECTION — EDITORIAL GLASS ENTRANCE & PARALLAX
        ═══════════════════════════════════════════════════════ */
-    function initLocationReveal() {
+    function initLocationAnimation() {
         if (prefersReduced) return;
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
         var locationSection = document.querySelector('.location-section');
         if (!locationSection) return;
 
-        /* Details column */
-        var detailItems = locationSection.querySelectorAll('.location-detail-item');
-        var detailsTitle = locationSection.querySelector('.location-details__title');
+        var glassCard = locationSection.querySelector('.location-glass-card');
+        var mapWrap   = document.getElementById('locationMapWrap');
 
-        if (detailsTitle) {
-            gsap.from(detailsTitle, {
-                opacity: 0,
-                yPercent: 30,
-                duration: 1,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: detailsTitle,
-                    start: 'top 80%'
+        // Cleanup stale ScrollTriggers
+        var oldCardST = ScrollTrigger.getById('location-glass-entrance');
+        if (oldCardST) oldCardST.kill();
+        var oldItemsST = ScrollTrigger.getById('location-card-items');
+        if (oldItemsST) oldItemsST.kill();
+        var oldMapST = ScrollTrigger.getById('location-map-parallax');
+        if (oldMapST) oldMapST.kill();
+
+        if (glassCard) {
+            // Glass card smooth slide up (y: 100 to 0) & fade in (opacity: 0 to 1) with ease: power4.out
+            gsap.fromTo(glassCard,
+                { y: 100, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    clearProps: 'transform',
+                    scrollTrigger: {
+                        id: 'location-glass-entrance',
+                        trigger: locationSection,
+                        start: 'top 80%',
+                        once: true
+                    }
                 }
-            });
+            );
+
+            // Stagger reveal heading, paragraph, detail grid items, and action buttons inside the card
+            var innerItems = glassCard.querySelectorAll(
+                '.location-details__badge, .location-details__title, .location-details__intro, .location-detail-item, .location-actions'
+            );
+
+            if (innerItems.length) {
+                gsap.fromTo(innerItems,
+                    { y: 30, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.85,
+                        stagger: 0.08,
+                        ease: 'power3.out',
+                        clearProps: 'transform',
+                        scrollTrigger: {
+                            id: 'location-card-items',
+                            trigger: locationSection,
+                            start: 'top 78%',
+                            once: true
+                        }
+                    }
+                );
+            }
         }
 
-        if (detailItems.length) {
-            gsap.from(detailItems, {
-                opacity: 0,
-                x: -30,
-                duration: 0.8,
-                stagger: 0.12,
-                ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: detailItems[0],
-                    start: 'top 80%'
+        // Smooth entrance animation on the map element as it scrolls into view
+        if (mapWrap) {
+            gsap.fromTo(mapWrap,
+                { y: 80, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    clearProps: 'transform',
+                    scrollTrigger: {
+                        id: 'location-map-entrance',
+                        trigger: locationSection,
+                        start: 'top 80%',
+                        once: true
+                    }
                 }
-            });
+            );
         }
     }
-
-    initLocationReveal();
 
 
     /* ═══════════════════════════════════════════════════════
@@ -1113,6 +1138,7 @@
         initVideoDivider();
         initChefSequence();
         initHorizontalShowcase();
+        initLocationAnimation();
         initFooterAnimation();
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
