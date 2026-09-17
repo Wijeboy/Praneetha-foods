@@ -846,7 +846,54 @@
         var oldTextST = ScrollTrigger.getById('chef-sequence-text');
         if (oldTextST) oldTextST.kill();
 
-        // 3. GSAP Pinning and Frame Scrubbing (pin: true, end: "+=400%")
+        // 3. Three-Part Typographic Storytelling Sync
+        var step1 = section.querySelector('.step-1');
+        var step2 = section.querySelector('.step-2');
+        var step3 = section.querySelector('.step-3');
+
+        function calculateStepState(frame, startIn, peakIn, startOut, endOut, isFinalStep) {
+            if (frame < startIn) {
+                return { opacity: 0, y: 25 };
+            }
+            if (frame < peakIn) {
+                var p = (frame - startIn) / (peakIn - startIn);
+                return { opacity: p, y: 25 * (1 - p) };
+            }
+            if (isFinalStep || frame <= startOut) {
+                return { opacity: 1, y: 0 };
+            }
+            if (frame < endOut) {
+                var p = (frame - startOut) / (endOut - startOut);
+                return { opacity: 1 - p, y: -25 * p };
+            }
+            return { opacity: 0, y: -25 };
+        }
+
+        function updateTextStory(frame) {
+            // Step 1: Frames 0 to 70 (Fade IN & OUT)
+            if (step1) {
+                var s1 = calculateStepState(frame, 0, 10, 48, 70, false);
+                step1.style.opacity = s1.opacity;
+                step1.style.transform = 'translate(-50%, calc(-50% + ' + s1.y + 'px))';
+            }
+            // Step 2: Frames 100 to 190 (Fade IN & OUT)
+            if (step2) {
+                var s2 = calculateStepState(frame, 100, 122, 168, 190, false);
+                step2.style.opacity = s2.opacity;
+                step2.style.transform = 'translate(-50%, calc(-50% + ' + s2.y + 'px))';
+            }
+            // Step 3: Frames 230 to 300 (Fade IN & stay visible until end)
+            if (step3) {
+                var s3 = calculateStepState(frame, 230, 258, 300, 300, true);
+                step3.style.opacity = s3.opacity;
+                step3.style.transform = 'translate(-50%, calc(-50% + ' + s3.y + 'px))';
+            }
+        }
+
+        // Initialize text story for frame 0
+        updateTextStory(0);
+
+        // 4. GSAP Pinning and Frame Scrubbing (pin: true, end: "+=400%")
         gsap.to(playhead, {
             frame: 299,
             snap: 'frame',
@@ -861,29 +908,12 @@
                 invalidateOnRefresh: true,
                 onUpdate: function () {
                     renderFrame(playhead.frame);
+                    updateTextStory(playhead.frame);
                 }
             }
         });
 
-        // 4. Synchronized text overlay animation over the pinned section
-        var content = section.querySelector('.chef-sequence__content');
-        if (content) {
-            gsap.timeline({
-                scrollTrigger: {
-                    id: 'chef-sequence-text',
-                    trigger: '.chef-sequence',
-                    start: 'top top',
-                    end: '+=400%',
-                    scrub: true
-                }
-            })
-            .to(content, { opacity: 1, y: 0, duration: 0.15, ease: 'none' })
-            .to(content, { opacity: 0, y: -30, duration: 0.15, ease: 'power2.in' })
-            .to(content, { opacity: 0, duration: 0.45 })
-            .to(content, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' });
-        }
-
-        console.log('[Interactions] Chef Plating Sequence initialized with GSAP Pinning');
+        console.log('[Interactions] Chef Plating Sequence initialized with 3-part storytelling');
     }
 
     initChefSequence();

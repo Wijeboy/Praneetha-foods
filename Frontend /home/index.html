@@ -28,7 +28,7 @@
     <!-- ═══════════════════════════════════════════════════════════
          STYLESHEET
          ═══════════════════════════════════════════════════════════ -->
-    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <link rel="stylesheet" href="css/style.css?v=3.2">
 </head>
 
 <body class="is-loading">
@@ -957,20 +957,35 @@
         <section class="chef-sequence" id="chefSequence" aria-label="The Plating Ritual">
             <canvas id="chefCanvas" class="chef-sequence__canvas"></canvas>
             <div class="chef-sequence__overlay" aria-hidden="true"></div>
-            <div class="chef-sequence__content">
-                <div class="chef-sequence__badge">
-                    <span class="chef-sequence__badge-dot"></span>
-                    <span>The Plating Ritual</span>
+
+            <!-- Step 1: The Preparation (Frames 0 to 70) -->
+            <div class="chef-text-step step-1">
+                <div class="chef-step-badge">
+                    <span class="chef-step-badge__dot"></span>
+                    <span>The Beginning</span>
                 </div>
-                <h2 class="chef-sequence__title">
-                    <span class="chef-sequence__word">THE PERFECT</span>
-                    <span class="chef-sequence__word text-gradient">PLATING</span>
-                </h2>
-                <p class="chef-sequence__tagline">A Masterpiece Served &bull; Layered with saffron rice, caramelized onions & slow-simmered spices</p>
-                <div class="chef-sequence__indicator">
-                    <span class="chef-sequence__indicator-text">Scroll to craft the dish</span>
-                    <span class="chef-sequence__indicator-line"></span>
+                <h2 class="chef-step-title">THE PREPARATION</h2>
+                <p class="chef-step-desc">Every masterpiece begins with authentic, handpicked ingredients.</p>
+            </div>
+
+            <!-- Step 2: Uncompromising Quality (Frames 100 to 190) -->
+            <div class="chef-text-step step-2">
+                <div class="chef-step-badge">
+                    <span class="chef-step-badge__dot"></span>
+                    <span>The Standard</span>
                 </div>
+                <h2 class="chef-step-title">UNCOMPROMISING QUALITY</h2>
+                <p class="chef-step-desc">Meticulously crafted to Michelin-star standards.</p>
+            </div>
+
+            <!-- Step 3: The Perfect Plating (Frames 230 to 300) -->
+            <div class="chef-text-step step-3">
+                <div class="chef-step-badge">
+                    <span class="chef-step-badge__dot"></span>
+                    <span>The Climax</span>
+                </div>
+                <h2 class="chef-step-title">THE PERFECT PLATING</h2>
+                <p class="chef-step-desc">A culinary masterpiece, ready to be served.</p>
             </div>
         </section>
 
@@ -1245,7 +1260,7 @@
     <script src="js/preloader.js"></script>
     <script src="js/scroll-engine.js"></script>
     <script src="js/bento-tilt.js"></script>
-    <script src="js/interactions.js?v=3.0"></script>
+    <script src="js/interactions.js?v=3.2"></script>
 
 </body>
 
