@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Contact Us — Praneetha Foods | Heritage Sri Lankan Village Cuisine</title>
+    <meta name="description"
+        content="Connect with the flame. Send inquiries for village dining reservations, private banquets, or share your impressions with Praneetha Foods Colombo.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         GOOGLE FONTS — Playfair Display SC (Headings) + Karla (Body)
+         ═══════════════════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700&family=Playfair+Display+SC:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         STYLESHEET
+         ═══════════════════════════════════════════════════════════ -->
+    <link rel="stylesheet" href="css/style.css?v=5.2">
+</head>
+
+<body class="contact-body">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         CINEMATIC LIVING BACKGROUND (FIRE & EMBERS)
+         High-end looping firewood & ember video behind the contact section,
+         coupled with a heavy dark vignette overlay and backdrop blur.
+         ═══════════════════════════════════════════════════════════ -->
+    <div class="contact-bg-media" aria-hidden="true">
+        <video class="contact-bg-video" autoplay loop muted playsinline poster="assets/dish-1.jpg">
+            <source src="assets/fire-divider.mp4" type="video/mp4">
+        </video>
+        <div class="contact-bg-overlay"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         NAVIGATION
+         Fixed glass-morphism navbar matching the home page
+         ═══════════════════════════════════════════════════════════ -->
+    <nav id="navbar" class="navbar" aria-label="Main navigation">
+        <div class="navbar__inner">
+            <!-- Logo -->
+            <a href="index.html" class="navbar__logo" aria-label="Praneetha Foods Home">
+                <img src="assets/logo.png" alt="Praneetha Foods" class="navbar__logo-img" width="82" height="45">
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <ul class="navbar__links" role="menubar">
+                <li role="none"><a href="index.html#hero" class="navbar__link" role="menuitem">Home</a></li>
+                <li role="none"><a href="index.html#about" class="navbar__link" role="menuitem">About</a></li>
+                <li role="none"><a href="index.html#chefs" class="navbar__link" role="menuitem">Chefs</a></li>
+                <li role="none"><a href="index.html#menu" class="navbar__link" role="menuitem">Menu</a></li>
+                <li role="none"><a href="contact.html" class="navbar__link navbar__link--active" role="menuitem">Contact</a></li>
+            </ul>
+
+            <!-- Desktop CTA Button -->
+            <a href="contact.html" class="navbar__cta">Contact Us</a>
+
+            <!-- Mobile Hamburger Toggle -->
+            <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+        <ul class="mobile-menu__links">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#chefs">Chefs</a></li>
+            <li><a href="index.html#menu">Menu</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="contact.html" class="mobile-menu__cta">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         CINEMATIC HERO HEADER
+         Tall, atmospheric dark glow with massive serif typography
+         ═══════════════════════════════════════════════════════════ -->
+    <header class="contact-hero" id="contactHero">
+        <span class="contact-hero__badge">
+            <span class="badge-dot"></span>
+            Direct Concierge
+        </span>
+        <h1 class="contact-hero__title">CONNECT WITH <span class="text-gradient">THE FLAME</span></h1>
+        <p class="contact-hero__desc">Whether inquiring about village reservations, private culinary ceremonies, or sharing your reflections, our concierge is dedicated to your experience.</p>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         DUAL GLASSMORPHISM FORMS SECTION
+         Card 1: General Inquiry & Messages
+         Card 2: Guest Experience & 5-Star Review
+         ═══════════════════════════════════════════════════════════ -->
+    <main class="contact-section">
+        <div class="contact-grid">
+
+            <!-- Card 1: General Message / Inquiries -->
+            <article class="contact-card contact-card--inquiry">
+                <div class="contact-card__glare" aria-hidden="true"></div>
+                <div>
+                    <div class="contact-card__header">
+                        <span class="contact-card__tag">Direct Dispatch</span>
+                        <h2 class="contact-card__title">Send a Message</h2>
+                        <p class="contact-card__desc">Have a question regarding reservations, private village dining, or dietary preferences? Drop us a note and our kitchen host will reach out.</p>
+                    </div>
+
+                    <form class="contact-form" id="inquiryForm" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="inqName">Full Name *</label>
+                                <input type="text" id="inqName" name="name" class="contact-input" placeholder="Ashan Perera" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="inqEmail">Email Address *</label>
+                                <input type="email" id="inqEmail" name="email" class="contact-input" placeholder="ashan@example.com" required autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="inqPhone">Phone Number</label>
+                                <input type="tel" id="inqPhone" name="phone" class="contact-input" placeholder="+94 77 123 4567" autocomplete="tel">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="inqTopic">Inquiry Nature</label>
+                                <select id="inqTopic" name="topic" class="contact-input contact-select">
+                                    <option value="table">Table Reservation</option>
+                                    <option value="private">Private Dining Ceremony</option>
+                                    <option value="banquet">Catering / Special Event</option>
+                                    <option value="general" selected>General Question</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="inqMessage">Your Message *</label>
+                            <textarea id="inqMessage" name="message" class="contact-input contact-textarea" rows="5" placeholder="Share your date preference, party size, or questions..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="contact-submit-btn contact-submit-btn--fire">
+                            <span class="contact-submit-btn__text">Send Message</span>
+                            <span class="contact-submit-btn__icon">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </span>
+                        </button>
+
+                        <div class="form-toast" id="inquiryToast" role="alert"></div>
+                    </form>
+                </div>
+            </article>
+
+            <!-- Card 2: Guest Experience & 5-Star Review -->
+            <article class="contact-card contact-card--feedback">
+                <div class="contact-card__glare" aria-hidden="true"></div>
+                <div>
+                    <div class="contact-card__header">
+                        <span class="contact-card__tag">Guest Impressions</span>
+                        <h2 class="contact-card__title">Share Your Experience</h2>
+                        <p class="contact-card__desc">Your village culinary experience shapes our flame. Rate your visit, tell us about dishes you loved, or honor your service crew.</p>
+                    </div>
+
+                    <form class="contact-form" id="feedbackForm" novalidate>
+                        <!-- Interactive 5-Star Rating Widget -->
+                        <div class="rating-widget">
+                            <div class="rating-stars-wrap">
+                                <span class="form-label">Culinary Experience *</span>
+                                <div class="rating-stars" id="ratingStars" role="radiogroup" aria-label="5 Star Rating">
+                                    <button type="button" class="star-btn active" data-rating="1" aria-label="1 Star">
+                                        <svg class="star-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </button>
+                                    <button type="button" class="star-btn active" data-rating="2" aria-label="2 Stars">
+                                        <svg class="star-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </button>
+                                    <button type="button" class="star-btn active" data-rating="3" aria-label="3 Stars">
+                                        <svg class="star-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </button>
+                                    <button type="button" class="star-btn active" data-rating="4" aria-label="4 Stars">
+                                        <svg class="star-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </button>
+                                    <button type="button" class="star-btn active" data-rating="5" aria-label="5 Stars">
+                                        <svg class="star-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="rating" id="ratingInput" value="5">
+                            <span class="rating-feedback" id="ratingFeedback">Exceptional (5/5)</span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="feedName">Guest Name *</label>
+                                <input type="text" id="feedName" name="guest_name" class="contact-input" placeholder="Kavindi Silva" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="feedDish">Dish Enjoyed Most</label>
+                                <input type="text" id="feedDish" name="favorite_dish" class="contact-input" placeholder="e.g. Village Lamprais, Crab Curry">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="feedReview">Your Reflections *</label>
+                            <textarea id="feedReview" name="review" class="contact-input contact-textarea" rows="5" placeholder="Tell us about the spice balance, aroma, ambiance, and warmth..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="contact-submit-btn contact-submit-btn--gold">
+                            <span class="contact-submit-btn__text">Submit Review</span>
+                            <span class="contact-submit-btn__icon">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </span>
+                        </button>
+
+                        <div class="form-toast" id="feedbackToast" role="alert"></div>
+                    </form>
+                </div>
+            </article>
+
+        </div><!-- /.contact-grid -->
+
+        <!-- Direct Concierge Info Tiles -->
+        <div class="contact-tiles">
+            <div class="contact-tile">
+                <div class="contact-tile__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="contact-tile__content">
+                    <h4>Location</h4>
+                    <p>42 Temple Road, Wellawatte<br>Colombo 06, Sri Lanka</p>
+                </div>
+            </div>
+
+            <div class="contact-tile">
+                <div class="contact-tile__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div class="contact-tile__content">
+                    <h4>Direct Hotline</h4>
+                    <p><a href="tel:+94771234567">+94 77 123 4567</a><br>Mon – Sun: 10:00 AM – 10:00 PM</p>
+                </div>
+            </div>
+
+            <div class="contact-tile">
+                <div class="contact-tile__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </div>
+                <div class="contact-tile__content">
+                    <h4>Concierge Desk</h4>
+                    <p><a href="mailto:hello@praneethafoods.lk">hello@praneethafoods.lk</a><br>Reservations & Events</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FOOTER — GSAP STAGGER REVEAL IN DOCUMENT FLOW
+         ═══════════════════════════════════════════════════════════ -->
+    <footer id="footer" class="footer" role="contentinfo">
+        <div class="footer__inner">
+            <div class="footer__grid">
+                <!-- Brand Column -->
+                <div class="footer__brand">
+                    <img src="assets/logo.png" alt="Praneetha Foods" class="footer__logo" width="120" height="48">
+                    <p class="footer__brand-text">Traditional Sri Lankan village-style restaurant. Spicy taste since
+                        generations — where every meal is a celebration of fire, flavour, and family.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Quick Links</h4>
+                    <ul class="footer__list">
+                        <li><a href="index.html#hero">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#chefs">Our Chefs</a></li>
+                        <li><a href="index.html#menu">Menu</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Contact</h4>
+                    <ul class="footer__list">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer__icon">
+                                <path
+                                    d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            <span>Colombo, Sri Lanka</span>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer__icon">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                            </svg>
+                            <span>+94 77 123 4567</span>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="footer__icon">
+                                <rect width="20" height="16" x="2" y="4" rx="2" />
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                            </svg>
+                            <span>hello@praneethafoods.lk</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Social Links -->
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Follow Us</h4>
+                    <div class="footer__socials">
+                        <a href="#" class="footer__social" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="footer__social" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                            </svg>
+                        </a>
+                        <a href="#" class="footer__social" aria-label="Twitter / X">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="footer__bottom">
+                <p>&copy; 2026 Praneetha Foods. All rights reserved.</p>
+                <button class="footer__back-to-top" id="backToTopBtn" type="button" aria-label="Back to top">
+                    <span>Back to Top</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                </button>
+                <p>
+                    Crafted with
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="footer__flame-icon">
+                        <path
+                            d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+                    </svg>
+                    in Sri Lanka
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCRIPTS
+         1. GSAP Core
+         2. ScrollTrigger Plugin
+         3. interactions.js
+         ═══════════════════════════════════════════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="js/interactions.js?v=5.2"></script>
+
+</body>
+
+</html>

@@ -340,14 +340,14 @@
        Staggers footer columns, brand, and bottom bar smoothly
        when the footer enters the viewport in natural document flow.
        ═══════════════════════════════════════════════════════ */
+    var footerAnimationDone = false;
+
     function initFooterAnimation() {
+        if (footerAnimationDone) return;
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
         var footer = document.querySelector('.footer');
         if (!footer) return;
-
-        var oldFooterST = ScrollTrigger.getById('footer-stagger');
-        if (oldFooterST) oldFooterST.kill();
 
         var footerElements = footer.querySelectorAll('.footer__brand, .footer__col, .footer__bottom');
         if (!footerElements.length) {
@@ -357,17 +357,19 @@
         gsap.from(footerElements, {
             id: 'footer-stagger',
             opacity: 0,
-            y: 35,
-            duration: 0.9,
+            y: 40,
+            duration: 1.0,
             stagger: 0.12,
             ease: 'power3.out',
-            clearProps: 'all',
+            clearProps: 'transform,opacity',
             scrollTrigger: {
                 trigger: footer,
-                start: 'top 95%',
+                start: 'top 92%',
                 once: true
             }
         });
+
+        footerAnimationDone = true;
     }
 
 
@@ -1130,6 +1132,227 @@
 
 
     /* ═══════════════════════════════════════════════════════
+       12. CONTACT PAGE ANIMATIONS & 5-STAR INTERACTIVITY
+       ═══════════════════════════════════════════════════════ */
+    function initContactAnimations() {
+        // Hero entrance stagger
+        var hero = document.querySelector('.contact-hero');
+        if (hero && typeof gsap !== 'undefined') {
+            var heroElements = hero.querySelectorAll('.contact-hero__badge, .contact-hero__title, .contact-hero__desc');
+            if (heroElements.length) {
+                gsap.fromTo(heroElements,
+                    { y: 40, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.1,
+                        stagger: 0.12,
+                        ease: 'power3.out',
+                        clearProps: 'transform'
+                    }
+                );
+            }
+        }
+
+        // Dual glass cards ScrollTrigger stagger & 3D tilt initialization
+        var contactGrid = document.querySelector('.contact-grid');
+        if (contactGrid && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            var cards = contactGrid.querySelectorAll('.contact-card');
+            if (cards.length) {
+                gsap.fromTo(cards,
+                    { y: 100, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.2,
+                        stagger: 0.2,
+                        ease: 'power4.out',
+                        clearProps: 'opacity',
+                        scrollTrigger: {
+                            trigger: contactGrid,
+                            start: 'top 85%',
+                            once: true
+                        },
+                        onComplete: function () {
+                            initContact3DTilt();
+                        }
+                    }
+                );
+            }
+        }
+
+        // Direct Concierge Info Tiles Stagger Reveal
+        var contactTiles = document.querySelector('.contact-tiles');
+        if (contactTiles && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            var tiles = contactTiles.querySelectorAll('.contact-tile');
+            if (tiles.length) {
+                gsap.fromTo(tiles,
+                    { y: 40, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.9,
+                        stagger: 0.12,
+                        ease: 'power3.out',
+                        clearProps: 'all',
+                        scrollTrigger: {
+                            trigger: contactTiles,
+                            start: 'top 90%',
+                            once: true
+                        }
+                    }
+                );
+            }
+        }
+
+        // 3D Glass Cards Dynamic Physics Tilt & Specular Reflection
+        function initContact3DTilt() {
+            if (prefersReduced) return;
+            var tiltCards = document.querySelectorAll('.contact-card');
+            if (!tiltCards.length) return;
+
+            var maxTilt = 8; // Max degrees
+
+            tiltCards.forEach(function (card) {
+                var glare = card.querySelector('.contact-card__glare');
+
+                card.addEventListener('mousemove', function (e) {
+                    var rect = card.getBoundingClientRect();
+                    var cx = rect.left + rect.width / 2;
+                    var cy = rect.top + rect.height / 2;
+                    var rx = ((e.clientY - cy) / (rect.height / 2)) * -maxTilt;
+                    var ry = ((e.clientX - cx) / (rect.width / 2)) * maxTilt;
+
+                    gsap.to(card, {
+                        rotateX: rx,
+                        rotateY: ry,
+                        duration: 0.35,
+                        ease: 'power2.out',
+                        transformPerspective: 1200
+                    });
+
+                    if (glare) {
+                        var px = ((e.clientX - rect.left) / rect.width) * 100;
+                        var py = ((e.clientY - rect.top) / rect.height) * 100;
+                        glare.style.opacity = '1';
+                        glare.style.background = 'radial-gradient(circle at ' + px.toFixed(1) + '% ' + py.toFixed(1) + '%, rgba(255, 255, 255, 0.14) 0%, transparent 65%)';
+                    }
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    gsap.to(card, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        duration: 0.8,
+                        ease: 'elastic.out(1, 0.6)',
+                        clearProps: 'transform'
+                    });
+
+                    if (glare) {
+                        glare.style.opacity = '0';
+                    }
+                });
+            });
+        }
+
+        // Also call directly in case cards are already in view
+        initContact3DTilt();
+
+        // 5-Star Interactive Rating Widget
+        var starContainer = document.getElementById('ratingStars');
+        var ratingInput = document.getElementById('ratingInput');
+        var ratingFeedback = document.getElementById('ratingFeedback');
+        if (starContainer && ratingInput) {
+            var stars = starContainer.querySelectorAll('.star-btn');
+            var ratingLabels = {
+                1: 'Fair (1/5)',
+                2: 'Pleasant (2/5)',
+                3: 'Good (3/5)',
+                4: 'Very Good (4/5)',
+                5: 'Exceptional (5/5)'
+            };
+
+            function setStars(val) {
+                stars.forEach(function (star) {
+                    var sVal = parseInt(star.getAttribute('data-rating'), 10);
+                    if (sVal <= val) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+
+            stars.forEach(function (star) {
+                var sVal = parseInt(star.getAttribute('data-rating'), 10);
+
+                star.addEventListener('mouseenter', function () {
+                    setStars(sVal);
+                    if (ratingFeedback && ratingLabels[sVal]) {
+                        ratingFeedback.textContent = ratingLabels[sVal];
+                    }
+                });
+
+                star.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    ratingInput.value = sVal;
+                    setStars(sVal);
+                    if (ratingFeedback && ratingLabels[sVal]) {
+                        ratingFeedback.textContent = ratingLabels[sVal];
+                    }
+                });
+            });
+
+            starContainer.addEventListener('mouseleave', function () {
+                var currentVal = parseInt(ratingInput.value, 10) || 5;
+                setStars(currentVal);
+                if (ratingFeedback && ratingLabels[currentVal]) {
+                    ratingFeedback.textContent = ratingLabels[currentVal];
+                }
+            });
+        }
+
+        // Form Submission Notifications
+        function attachFormSubmit(formId, toastId, successMsg) {
+            var form = document.getElementById(formId);
+            var toast = document.getElementById(toastId);
+            if (!form) return;
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var btn = form.querySelector('button[type="submit"]');
+                if (btn) {
+                    var originalHTML = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<span>Processing...</span>';
+                    setTimeout(function () {
+                        form.reset();
+                        if (ratingInput) ratingInput.value = 5;
+                        if (starContainer) {
+                            var allStars = starContainer.querySelectorAll('.star-btn');
+                            allStars.forEach(function (s) { s.classList.add('active'); });
+                        }
+                        if (ratingFeedback) ratingFeedback.textContent = 'Exceptional (5/5)';
+                        btn.disabled = false;
+                        btn.innerHTML = originalHTML;
+                        if (toast) {
+                            toast.textContent = successMsg;
+                            toast.classList.add('show');
+                            setTimeout(function () {
+                                toast.classList.remove('show');
+                            }, 5000);
+                        }
+                    }, 700);
+                }
+            });
+        }
+
+        attachFormSubmit('inquiryForm', 'inquiryToast', 'Your message has been dispatched to our concierge. We will reply promptly.');
+        attachFormSubmit('feedbackForm', 'feedbackToast', 'Thank you for your review! Your impressions nourish our kitchen.');
+    }
+
+
+    /* ═══════════════════════════════════════════════════════
        13. MASTER INITIALIZATION BLOCK
        Guarantees initHorizontalShowcase runs under DOMContentLoaded,
        window load, and immediate execution if already interactive.
@@ -1140,6 +1363,7 @@
         initHorizontalShowcase();
         initLocationAnimation();
         initFooterAnimation();
+        initContactAnimations();
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
             setTimeout(function () {
