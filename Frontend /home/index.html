@@ -28,7 +28,7 @@
     <!-- ═══════════════════════════════════════════════════════════
          STYLESHEET
          ═══════════════════════════════════════════════════════════ -->
-    <link rel="stylesheet" href="css/style.css?v=2.7">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
 </head>
 
 <body class="is-loading">
@@ -912,6 +912,70 @@
 
 
         <!-- ─────────────────────────────────────────────────────
+             SECTION 4.5: CINEMATIC PARALLAX VIDEO DIVIDER
+             
+             Full-viewport (100vh) immersive video divider with
+             slow-motion firewood embers, deep gradient overlays,
+             monumental luxury typography, and scrubbed scale/y parallax.
+             ───────────────────────────────────────────────────── -->
+        <section class="video-divider" id="videoDivider" aria-label="Born in Fire Video Divider">
+            <!-- Background Video with Parallax Wrapper -->
+            <div class="video-divider__media-wrap">
+                <video class="video-divider__video" autoplay loop muted playsinline poster="assets/dish-1.jpg">
+                    <source src="assets/fire-divider.mp4" type="video/mp4">
+                    <source src="https://assets.mixkit.co/videos/4426/4426-720.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- Deep Vignette & Radial Dark Gradient Overlay -->
+            <div class="video-divider__overlay" aria-hidden="true"></div>
+
+            <!-- Luxury Typographic Content -->
+            <div class="video-divider__content">
+                <div class="video-divider__badge">
+                    <span class="video-divider__badge-dot"></span>
+                    <span>The Living Flame</span>
+                </div>
+                <h2 class="video-divider__title">
+                    <span class="video-divider__word">BORN IN</span>
+                    <span class="video-divider__word text-gradient">FIRE</span>
+                </h2>
+                <p class="video-divider__tagline">Forged by generations of village tradition &bull; Simmered in authentic clay pots over coconut shell embers</p>
+                <div class="video-divider__rule" aria-hidden="true"></div>
+            </div>
+        </section>
+
+
+        <!-- ─────────────────────────────────────────────────────
+             SECTION 4.8: CHEF PLATING SEQUENCE (SCROLL-BOUND CANVAS)
+             
+             A 300-frame 60fps high-resolution cinematic sequence
+             depicting the chef handcrafting and plating biryani.
+             Scrubbed via GSAP ScrollTrigger on a sticky <canvas>.
+             Frames are lazy-loaded on proximity via IntersectionObserver.
+             ───────────────────────────────────────────────────── -->
+        <section class="chef-sequence" id="chefSequence" aria-label="The Plating Ritual">
+            <canvas id="chefCanvas" class="chef-sequence__canvas"></canvas>
+            <div class="chef-sequence__overlay" aria-hidden="true"></div>
+            <div class="chef-sequence__content">
+                <div class="chef-sequence__badge">
+                    <span class="chef-sequence__badge-dot"></span>
+                    <span>The Plating Ritual</span>
+                </div>
+                <h2 class="chef-sequence__title">
+                    <span class="chef-sequence__word">THE PERFECT</span>
+                    <span class="chef-sequence__word text-gradient">PLATING</span>
+                </h2>
+                <p class="chef-sequence__tagline">A Masterpiece Served &bull; Layered with saffron rice, caramelized onions & slow-simmered spices</p>
+                <div class="chef-sequence__indicator">
+                    <span class="chef-sequence__indicator-text">Scroll to craft the dish</span>
+                    <span class="chef-sequence__indicator-line"></span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ─────────────────────────────────────────────────────
              SECTION 5: 3D PARALLAX CULINARY GALLERY
              
              Masonry/Bento CSS grid with 6 high-res food images.
@@ -1181,7 +1245,7 @@
     <script src="js/preloader.js"></script>
     <script src="js/scroll-engine.js"></script>
     <script src="js/bento-tilt.js"></script>
-    <script src="js/interactions.js?v=2.7"></script>
+    <script src="js/interactions.js?v=3.0"></script>
 
 </body>
 

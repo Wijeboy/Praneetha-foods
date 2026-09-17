@@ -229,11 +229,13 @@
         }
     }
 
-    // Initialize scroll reveals, pinned dish showcase, and parallax gallery after hero frames load
+    // Initialize scroll reveals, dish showcase, video divider, chef sequence, and parallax gallery after hero frames load
     document.addEventListener('praneetha:framesLoaded', function () {
         setTimeout(function () {
             initScrollReveals();
             initDishShowcase();
+            initVideoDivider();
+            initChefSequence();
             initParallaxGallery();
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.refresh();
@@ -245,6 +247,8 @@
     setTimeout(function () {
         if (!document.querySelector('.bento-card[style]')) {
             initScrollReveals();
+            initVideoDivider();
+            initChefSequence();
             initParallaxGallery();
         }
     }, 8000);
@@ -629,6 +633,263 @@
 
 
     /* ═══════════════════════════════════════════════════════
+       10.5 CINEMATIC PARALLAX VIDEO DIVIDER
+       
+       Full-viewport (100vh) immersive video divider with
+       slow-motion firewood embers. As the user scrolls past:
+       - Video smoothly scales down (1.25 -> 1.0) with subtle y-parallax scrub
+       - Typographic content fades in and slides up with dramatic easing
+       ═══════════════════════════════════════════════════════ */
+    function initVideoDivider() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        var section = document.querySelector('.video-divider');
+        if (!section) return;
+
+        var video = section.querySelector('.video-divider__video');
+        var content = section.querySelector('.video-divider__content');
+
+        // Kill any pre-existing triggers to ensure clean re-initialization
+        var oldVideoST = ScrollTrigger.getById('video-divider-scrub');
+        if (oldVideoST) oldVideoST.kill();
+        var oldContentST = ScrollTrigger.getById('video-divider-entrance');
+        if (oldContentST) oldContentST.kill();
+
+        // 1. Parallax & Scale Scrub on Background Video (scale 1.25 -> 1.0, yPercent -10 -> 10)
+        if (video) {
+            gsap.fromTo(video,
+                {
+                    scale: 1.25,
+                    yPercent: -10
+                },
+                {
+                    scale: 1.0,
+                    yPercent: 10,
+                    ease: 'none',
+                    scrollTrigger: {
+                        id: 'video-divider-scrub',
+                        trigger: section,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1,
+                        invalidateOnRefresh: true
+                    }
+                }
+            );
+        }
+
+        // 2. Cinematic Typographic Entrance (fade in + slide up)
+        if (content) {
+            var badge = content.querySelector('.video-divider__badge');
+            var title = content.querySelector('.video-divider__title');
+            var tagline = content.querySelector('.video-divider__tagline');
+            var rule = content.querySelector('.video-divider__rule');
+
+            var items = [badge, title, tagline, rule].filter(Boolean);
+
+            gsap.fromTo(items,
+                {
+                    opacity: 0,
+                    y: 70,
+                    scale: 0.94
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 1.15,
+                    stagger: 0.14,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        id: 'video-divider-entrance',
+                        trigger: section,
+                        start: 'top 75%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        }
+
+        console.log('[Interactions] Cinematic Parallax Video Divider initialized');
+    }
+
+    initVideoDivider();
+
+
+    /* ═══════════════════════════════════════════════════════
+       10.8 CHEF PLATING SEQUENCE (GSAP PINNED CANVAS SCRUB)
+       
+       A 300-frame high-resolution cinematic sequence:
+       - Loads frame-001.jpg IMMEDIATELY on initialization and renders it.
+       - Silently preloads the remaining 299 frames in the background.
+       - GSAP ScrollTrigger pins the section (.chef-sequence) with pin: true
+         and end: "+=400%", handling all spacing and scrubbing natively.
+       - Silky smooth 60fps frame rendering with cover fit and DPR scaling.
+       ═══════════════════════════════════════════════════════ */
+    function initChefSequence() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        var section = document.querySelector('.chef-sequence');
+        var canvas = document.getElementById('chefCanvas');
+        if (!section || !canvas) return;
+
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        var FRAME_COUNT = 300;
+        var chefImages = new Array(FRAME_COUNT);
+        var playhead = { frame: 0 };
+        var cssW = 0;
+        var cssH = 0;
+
+        // Size canvas and account for Retina/HiDPI DPR
+        function resizeChefCanvas() {
+            if (!canvas) return;
+            var dpr = window.devicePixelRatio || 1;
+            var rect = canvas.getBoundingClientRect();
+            cssW = rect.width || window.innerWidth;
+            cssH = rect.height || window.innerHeight;
+
+            canvas.width = Math.round(cssW * dpr);
+            canvas.height = Math.round(cssH * dpr);
+
+            ctx.scale(dpr, dpr);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
+            renderFrame(playhead.frame);
+        }
+
+        // Render frame with cover fit and nearest-frame fallback
+        function renderFrame(frameIndex) {
+            var index = Math.round(frameIndex);
+            index = Math.max(0, Math.min(index, FRAME_COUNT - 1));
+
+            var img = chefImages[index];
+            if (!img || !img.complete || !img.naturalWidth) {
+                // If the target frame is still downloading, find the nearest loaded frame
+                for (var offset = 1; offset < 35; offset++) {
+                    if (chefImages[index - offset] && chefImages[index - offset].naturalWidth) {
+                        img = chefImages[index - offset];
+                        break;
+                    }
+                    if (chefImages[index + offset] && chefImages[index + offset].naturalWidth) {
+                        img = chefImages[index + offset];
+                        break;
+                    }
+                }
+            }
+
+            if (!img || !img.naturalWidth) return;
+
+            var cw = cssW;
+            var ch = cssH;
+            var iw = img.naturalWidth;
+            var ih = img.naturalHeight;
+
+            var scale = Math.max(cw / iw, ch / ih);
+            var drawW = iw * scale;
+            var drawH = ih * scale;
+            var drawX = (cw - drawW) / 2;
+            var drawY = (ch - drawH) / 2;
+
+            ctx.clearRect(0, 0, cw, ch);
+            ctx.drawImage(img, drawX, drawY, drawW, drawH);
+        }
+
+        // 1. Preload frame-001.jpg IMMEDIATELY and paint to canvas so it's never blank
+        var firstImg = new Image();
+        firstImg.src = 'assets/chef-frames/frame-001.jpg';
+        firstImg.onload = function () {
+            chefImages[0] = firstImg;
+            renderFrame(0);
+        };
+
+        // 2. Preload remaining 299 frames silently in background
+        var backgroundPreloadStarted = false;
+        function preloadRemainingFrames() {
+            if (backgroundPreloadStarted) return;
+            backgroundPreloadStarted = true;
+
+            for (var i = 1; i <= FRAME_COUNT; i++) {
+                if (chefImages[i - 1]) continue;
+                (function (idx) {
+                    var pad = String(idx).padStart(3, '0');
+                    var img = new Image();
+                    img.src = 'assets/chef-frames/frame-' + pad + '.jpg';
+                    img.onload = function () {
+                        chefImages[idx - 1] = img;
+                        if (Math.round(playhead.frame) === idx - 1) {
+                            renderFrame(idx - 1);
+                        }
+                    };
+                })(i);
+            }
+        }
+
+        // Start preloading immediately or on window load
+        if (document.readyState === 'complete') {
+            preloadRemainingFrames();
+        } else {
+            window.addEventListener('load', preloadRemainingFrames);
+            setTimeout(preloadRemainingFrames, 1200);
+        }
+
+        resizeChefCanvas();
+        window.addEventListener('resize', resizeChefCanvas);
+
+        // Kill pre-existing ScrollTrigger instance if re-initializing
+        var oldST = ScrollTrigger.getById('chef-sequence-st');
+        if (oldST) oldST.kill();
+        var oldTextST = ScrollTrigger.getById('chef-sequence-text');
+        if (oldTextST) oldTextST.kill();
+
+        // 3. GSAP Pinning and Frame Scrubbing (pin: true, end: "+=400%")
+        gsap.to(playhead, {
+            frame: 299,
+            snap: 'frame',
+            ease: 'none',
+            scrollTrigger: {
+                id: 'chef-sequence-st',
+                trigger: '.chef-sequence',
+                start: 'top top',
+                end: '+=400%',
+                pin: true,
+                scrub: 1,
+                invalidateOnRefresh: true,
+                onUpdate: function () {
+                    renderFrame(playhead.frame);
+                }
+            }
+        });
+
+        // 4. Synchronized text overlay animation over the pinned section
+        var content = section.querySelector('.chef-sequence__content');
+        if (content) {
+            gsap.timeline({
+                scrollTrigger: {
+                    id: 'chef-sequence-text',
+                    trigger: '.chef-sequence',
+                    start: 'top top',
+                    end: '+=400%',
+                    scrub: true
+                }
+            })
+            .to(content, { opacity: 1, y: 0, duration: 0.15, ease: 'none' })
+            .to(content, { opacity: 0, y: -30, duration: 0.15, ease: 'power2.in' })
+            .to(content, { opacity: 0, duration: 0.45 })
+            .to(content, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' });
+        }
+
+        console.log('[Interactions] Chef Plating Sequence initialized with GSAP Pinning');
+    }
+
+    initChefSequence();
+
+
+    /* ═══════════════════════════════════════════════════════
        11. 3D PARALLAX CULINARY GALLERY (SHOW-OFF 3D SUITE)
        
        1. Dramatic 3D Staggered Entrance:
@@ -813,6 +1074,8 @@
        window load, and immediate execution if already interactive.
        ═══════════════════════════════════════════════════════ */
     function initMaster() {
+        initVideoDivider();
+        initChefSequence();
         initParallaxGallery();
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
