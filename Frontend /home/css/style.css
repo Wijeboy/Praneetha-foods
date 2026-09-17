@@ -1219,185 +1219,240 @@ h6 {
    Masonry/Bento CSS Grid featuring 6 high-res culinary images
    with GSAP ScrollTrigger multi-speed vertical parallax scrub.
    ═══════════════════════════════════════════════════════════════ */
-.parallax-gallery {
-    position: relative;
-    padding: clamp(16px, 2vw, 24px) var(--space-xl) clamp(var(--space-xl), 3vw, var(--space-2xl));
-    background:
-        radial-gradient(ellipse at 50% 0%, rgba(220, 38, 38, 0.05) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 80%, rgba(245, 158, 11, 0.03) 0%, transparent 60%),
-        var(--color-bg);
+/* ═══════════════════════════════════════════════════════════════
+   APPLE-STYLE HORIZONTAL SCROLL SHOWCASE
+   ═══════════════════════════════════════════════════════════════ */
+.horizontal-showcase {
+    width: 100%;
+    height: 100vh;
+    min-height: 640px;
     overflow: hidden;
+    position: relative;
+    background: #050505;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    z-index: 2;
 }
 
-.parallax-gallery__container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-}
-
-.parallax-gallery__header {
+.horizontal-header {
     text-align: center;
-    max-width: 680px;
-    margin: 0 auto clamp(var(--space-lg), 2.5vw, var(--space-xl));
+    max-width: 820px;
+    margin: 0 auto clamp(20px, 3vh, 36px);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 5;
+    padding: 0 var(--space-md);
 }
 
-.gallery-badge {
+.horizontal-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 16px;
-    background: rgba(220, 38, 38, 0.08);
-    border: 1px solid rgba(220, 38, 38, 0.22);
-    border-radius: var(--radius-full);
+    padding: 6px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 9999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: var(--space-md);
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.gallery-badge .badge-dot {
+.horizontal-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--color-accent);
-    box-shadow: 0 0 8px var(--color-accent);
+    background: #FFFFFF;
+    box-shadow: 0 0 10px #FFFFFF, 0 0 18px rgba(255, 255, 255, 0.8);
+    animation: horizontalDotPulse 2s ease-in-out infinite;
 }
 
-.gallery-title {
-    font-family: var(--font-heading), 'Playfair Display SC', serif;
-    font-size: clamp(2.6rem, 4.5vw, 4rem);
-    color: var(--color-text);
-    margin-bottom: var(--space-md);
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+@keyframes horizontalDotPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 10px #FFFFFF, 0 0 18px rgba(255, 255, 255, 0.8);
+    }
+    50% {
+        transform: scale(1.35);
+        opacity: 0.65;
+        box-shadow: 0 0 16px #FFFFFF, 0 0 28px rgba(255, 255, 255, 1);
+    }
 }
 
-.gallery-intro {
-    font-size: 1.02rem;
-    color: var(--color-text-muted);
-    line-height: 1.75;
+.horizontal-title {
+    font-family: var(--font-heading), 'Playfair Display SC', Georgia, serif;
+    font-size: clamp(2.8rem, 4.8vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.08;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 0 0 8px;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
 }
 
-/* 3-Column 3D Parallax Grid */
-.parallax-gallery__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(var(--space-md), 2.5vw, var(--space-xl));
-    align-items: start;
-    margin-bottom: clamp(var(--space-2xl), 3.5vw, var(--space-3xl));
+.horizontal-subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.72);
+    margin: 0 auto;
+    max-width: 540px;
+    line-height: 1.5;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Single Horizontal Track ── */
+.horizontal-track {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    padding: 0 5vw;
+    align-items: center;
     perspective: 1400px;
+    will-change: transform;
+    flex-grow: 1;
+    padding-bottom: clamp(20px, 3vh, 40px);
 }
 
-.gallery-column {
+/* ── Fixed-Size Premium Dish Card ── */
+.horizontal-track .gallery-card {
+    width: 400px;
+    height: 500px;
+    flex-shrink: 0;
+    border-radius: 24px;
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    cursor: grab;
+}
+
+.horizontal-track .gallery-card:active {
+    cursor: grabbing;
+}
+
+.horizontal-track .gallery-card__shell {
+    width: 100%;
+    height: 100%;
+    padding: 7px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 
+        0 24px 60px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: clamp(var(--space-md), 2.5vw, var(--space-xl));
+    box-sizing: border-box;
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Stagger center column offset */
-.gallery-column--fast {
-    margin-top: clamp(24px, 3.5vw, 48px);
-}
-
-/* Double-Bezel Card Shell */
-.gallery-card {
-    will-change: transform;
-    transform-style: preserve-3d;
-}
-
-.gallery-card__shell {
-    padding: 6px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 22px;
+.horizontal-track .gallery-card:hover .gallery-card__shell {
+    border-color: rgba(255, 255, 255, 0.25);
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.02);
-    transition: border-color var(--transition-base), box-shadow var(--transition-base);
-    transform-style: preserve-3d;
-    will-change: transform, opacity;
+        0 30px 80px rgba(0, 0, 0, 0.85),
+        0 0 30px rgba(255, 255, 255, 0.08);
 }
 
-.gallery-card:hover .gallery-card__shell {
-    border-color: rgba(220, 38, 38, 0.3);
-    box-shadow: 
-        0 30px 70px rgba(0, 0, 0, 0.75),
-        0 0 35px rgba(220, 38, 38, 0.12);
-}
-
-.gallery-card__media {
+.horizontal-track .gallery-card__media {
     position: relative;
-    border-radius: 16px;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
     overflow: hidden;
-    aspect-ratio: 4 / 3;
-    background: #0D1117;
+    background: #0d1117;
 }
 
-.gallery-card--featured .gallery-card__media {
-    aspect-ratio: 4 / 3.5;
-}
-
-.gallery-card--hero .gallery-card__media {
-    aspect-ratio: 4 / 4.4;
-}
-
-.gallery-card__media img {
+.horizontal-track .gallery-card__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.gallery-card:hover .gallery-card__media img {
+.horizontal-track .gallery-card:hover .gallery-card__media img {
     transform: scale(1.08);
 }
 
-/* Floating Glass Pill */
-.gallery-card__glass-pill {
+/* Floating Frosted Pill */
+.horizontal-track .gallery-card__glass-pill {
     position: absolute;
-    top: 14px;
-    left: 14px;
+    top: 16px;
+    left: 16px;
+    z-index: 3;
     padding: 6px 14px;
-    background: rgba(10, 13, 20, 0.8);
+    background: rgba(10, 10, 10, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: var(--radius-full);
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
-    color: var(--color-accent);
-    z-index: 2;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Hover Content Overlay */
-.gallery-card__overlay {
+/* Overlay & Typography */
+.horizontal-track .gallery-card__overlay {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(5, 5, 5, 0.94) 0%, rgba(5, 5, 5, 0.45) 45%, transparent 80%);
+    inset: auto 0 0 0;
+    z-index: 3;
+    padding: clamp(18px, 2.5vw, 24px);
+    background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 5, 0.55) 30%, rgba(5, 5, 5, 0.95) 100%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: var(--space-lg);
+}
+
+.horizontal-track .gallery-card__name {
+    font-family: var(--font-heading), 'Playfair Display SC', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 6px;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.horizontal-track .gallery-card__desc {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* ── Showcase CTA Section (Anchored before footer reveal) ── */
+.showcase-cta-section {
+    position: relative;
+    background: #050505;
+    padding: clamp(var(--space-2xl), 5vw, var(--space-3xl)) var(--space-xl);
     z-index: 2;
 }
 
-.gallery-card__name {
-    font-family: var(--font-heading), 'Playfair Display SC', serif;
-    font-size: 1.18rem;
-    color: #FFFFFF;
-    margin-bottom: 4px;
-    line-height: 1.25;
-}
-
-.gallery-card__desc {
-    font-size: 0.8rem;
-    color: var(--color-text-muted);
-    line-height: 1.45;
+.showcase-cta-section .gallery-cta-bar {
+    max-width: var(--max-width);
+    margin: 0 auto;
 }
 
 /* Integrated Gallery CTA Bar */
@@ -2960,13 +3015,22 @@ button:focus-visible {
         aspect-ratio: 16 / 11;
     }
 
-    .parallax-gallery__grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-xl);
+    .horizontal-showcase {
+        padding-top: 85px;
+        min-height: 580px;
     }
 
-    .gallery-column--fast {
-        margin-top: 0;
+    .horizontal-track {
+        gap: 2rem;
+    }
+
+    .horizontal-track .gallery-card {
+        width: 320px;
+        height: 440px;
+    }
+
+    .horizontal-title {
+        font-size: clamp(2.4rem, 6vw, 3.6rem);
     }
 
     .gallery-cta-bar {
@@ -3037,12 +3101,28 @@ button:focus-visible {
         font-size: clamp(2.4rem, 7.5vw, 3.2rem);
     }
 
-    .gallery-title {
-        font-size: clamp(2rem, 6.5vw, 2.6rem);
+    .horizontal-showcase {
+        padding-top: 75px;
+        min-height: 520px;
     }
 
-    .gallery-card__media {
-        aspect-ratio: 16 / 11;
+    .horizontal-track {
+        gap: 1.5rem;
+        padding: 0 6vw;
+    }
+
+    .horizontal-track .gallery-card {
+        width: 280px;
+        height: 390px;
+    }
+
+    .horizontal-title {
+        font-size: clamp(2rem, 7.5vw, 2.8rem);
+    }
+
+    .horizontal-badge {
+        padding: 5px 14px;
+        font-size: 0.65rem;
     }
 
     .location-actions {

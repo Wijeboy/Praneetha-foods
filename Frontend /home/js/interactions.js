@@ -229,14 +229,14 @@
         }
     }
 
-    // Initialize scroll reveals, dish showcase, video divider, chef sequence, and parallax gallery after hero frames load
+    // Initialize scroll reveals, dish showcase, video divider, chef sequence, and horizontal showcase after hero frames load
     document.addEventListener('praneetha:framesLoaded', function () {
         setTimeout(function () {
             initScrollReveals();
             initDishShowcase();
             initVideoDivider();
             initChefSequence();
-            initParallaxGallery();
+            initHorizontalShowcase();
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.refresh();
             }
@@ -249,7 +249,7 @@
             initScrollReveals();
             initVideoDivider();
             initChefSequence();
-            initParallaxGallery();
+            initHorizontalShowcase();
         }
     }, 8000);
 
@@ -920,166 +920,171 @@
 
 
     /* ═══════════════════════════════════════════════════════
-       11. 3D PARALLAX CULINARY GALLERY (SHOW-OFF 3D SUITE)
+       11. APPLE-STYLE HORIZONTAL SCROLL SHOWCASE
        
-       1. Dramatic 3D Staggered Entrance:
-          Cards cascade in from (y: 150, scale: 0.8, rotateX: 25, opacity: 0)
-          to normal on entrance trigger.
-       2. Extreme Parallax Scrub:
-          Multiplies data-speed by 3x so cards float with massive,
-          unmistakable differential depth (up to 450px variance).
-       3. 3D Floating Rotations:
-          Subtle dynamic rotateZ and rotateY drift during scrub
-          for genuine weightless 3D perspective.
+       1. Pinning: Pins the .horizontal-showcase section as
+          it reaches the top of the viewport.
+       2. Scrubbed Translation: Moves .horizontal-track on
+          the X-axis from 0 to -(track.scrollWidth - window.innerWidth).
+       3. 3D Momentum & Velocity Tilt: Dynamic skew & rotateY
+          based on scroll velocity creates authentic physical weight.
+       4. 3D Perspective Hover: Individual cards respond to
+          mouse movement with 3D tilt and specular highlight.
        ═══════════════════════════════════════════════════════ */
-    function initParallaxGallery() {
+    function initHorizontalShowcase() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-            console.warn('[Interactions] GSAP or ScrollTrigger not loaded yet');
+            console.warn('[Showcase] GSAP or ScrollTrigger not loaded yet');
             return;
         }
 
         gsap.registerPlugin(ScrollTrigger);
 
-        var gallery = document.querySelector('.parallax-gallery');
-        if (!gallery) return;
+        var showcase = document.querySelector('.horizontal-showcase');
+        var track = document.querySelector('.horizontal-track');
+        if (!showcase || !track) return;
 
-        var cards = gallery.querySelectorAll('.gallery-card');
+        var cards = track.querySelectorAll('.gallery-card');
         if (!cards.length) return;
 
-        var isMobile = window.innerWidth <= 900;
+        // Clean up any existing trigger to avoid duplicate pin spaces
+        var oldST = ScrollTrigger.getById('horizontal-showcase-pin');
+        if (oldST) oldST.kill();
 
-        // ── 1. Dramatic 3D Staggered Entrance ──
-        var shells = gallery.querySelectorAll('.gallery-card__shell');
-        if (shells.length) {
-            var oldEntranceST = ScrollTrigger.getById('gallery-entrance');
-            if (oldEntranceST) oldEntranceST.kill();
+        // Reveal header subtly when section scrolls into view
+        var header = showcase.querySelector('.horizontal-header');
+        if (header) {
+            var oldHeaderST = ScrollTrigger.getById('horizontal-header-entrance');
+            if (oldHeaderST) oldHeaderST.kill();
 
-            gsap.fromTo(shells,
-                {
-                    opacity: 0,
-                    y: 150,
-                    scale: 0.8,
-                    rotateX: 25,
-                    transformPerspective: 1200
-                },
+            gsap.fromTo(header,
+                { opacity: 0, y: 30 },
                 {
                     opacity: 1,
                     y: 0,
-                    scale: 1,
-                    rotateX: 0,
-                    duration: 1.15,
+                    duration: 0.9,
                     ease: 'power3.out',
-                    stagger: 0.12,
                     scrollTrigger: {
-                        id: 'gallery-entrance',
-                        trigger: gallery,
-                        start: 'top 82%',
+                        id: 'horizontal-header-entrance',
+                        trigger: showcase,
+                        start: 'top 85%',
                         once: true
                     }
                 }
             );
         }
 
-        // ── 2. Extreme 3D Parallax Scrub & 3D Floating Rotations ──
-        cards.forEach(function (card, index) {
-            // Read data-speed attribute (e.g. -50, 40, -90, 60, -35, 45)
-            var speedAttr = card.getAttribute('data-speed');
-            var speed = speedAttr !== null ? parseFloat(speedAttr) : ((index % 2 === 0 ? -1 : 1) * 50);
-            if (isNaN(speed) || speed === 0) {
-                speed = (index % 2 === 0 ? -40 : 40);
-            }
+        // Calculate horizontal translation distance
+        function getScrollAmount() {
+            return -(track.scrollWidth - window.innerWidth);
+        }
 
-            // Remove CSS transform transitions so GSAP scrub has direct 60fps control
-            card.style.transition = 'none';
-            card.style.willChange = 'transform';
+        // GSAP Pin + Scrub Timeline
+        gsap.to(track, {
+            x: getScrollAmount,
+            ease: 'none',
+            scrollTrigger: {
+                id: 'horizontal-showcase-pin',
+                trigger: showcase,
+                start: 'top top',
+                end: () => '+=' + track.scrollWidth,
+                pin: true,
+                scrub: 1,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+                onUpdate: function (self) {
+                    // 3D Flair: subtle dynamic rotateY & skew based on scroll velocity
+                    var velocity = self.getVelocity ? self.getVelocity() : 0;
+                    var clampedVelocity = Math.max(-1200, Math.min(1200, velocity));
+                    var skew = clampedVelocity / 160;       // -7.5deg to +7.5deg
+                    var rotateY = clampedVelocity / 130;    // -9deg to +9deg
 
-            // Clean up any existing trigger on this card to prevent duplicates
-            var stId = 'parallax-card-' + index;
-            var oldST = ScrollTrigger.getById(stId);
-            if (oldST) {
-                oldST.kill();
-            }
-
-            // Extreme 3x parallax math: provides deep, dramatic floating displacement
-            var multiplier = isMobile ? 1.0 : 3.0;
-            var yDistance = speed * multiplier;
-
-            // 3D floating rotational angles
-            var rotZ = (speed < 0 ? -4 : 4) * (isMobile ? 0.3 : 1.0);
-            var rotY = (speed < 0 ? 6 : -6) * (isMobile ? 0.3 : 1.0);
-            var rotX = (speed < 0 ? 3 : -3) * (isMobile ? 0.3 : 1.0);
-
-            // GSAP ScrollTrigger 3D scrub
-            gsap.to(card, {
-                y: yDistance,
-                rotateZ: rotZ,
-                rotateY: rotY,
-                rotateX: rotX,
-                transformPerspective: 1200,
-                ease: 'none',
-                scrollTrigger: {
-                    id: stId,
-                    trigger: gallery,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1,
-                    invalidateOnRefresh: true
+                    gsap.to(cards, {
+                        skewX: -skew,
+                        rotateY: -rotateY,
+                        duration: 0.35,
+                        ease: 'power1.out',
+                        overwrite: 'auto'
+                    });
                 }
+            }
+        });
+
+        // Smoothly settle cards upright when scrolling pauses/stops
+        ScrollTrigger.addEventListener('scrollEnd', function () {
+            gsap.to(cards, {
+                skewX: 0,
+                rotateY: 0,
+                duration: 0.6,
+                ease: 'power2.out',
+                overwrite: 'auto'
             });
         });
 
-        // ── 3. Internal Camera Depth Zoom on Food Photography ──
-        var mediaImages = gallery.querySelectorAll('.gallery-card__media img');
-        mediaImages.forEach(function (img, imgIdx) {
-            var imgStId = 'parallax-img-' + imgIdx;
-            var oldImgST = ScrollTrigger.getById(imgStId);
-            if (oldImgST) oldImgST.kill();
+        // 3D Hover & Mouse Micro-Tilt for each card
+        cards.forEach(function (card) {
+            var shell = card.querySelector('.gallery-card__shell');
+            if (!shell) return;
 
-            gsap.to(img, {
-                scale: 1.15,
-                yPercent: 6,
-                ease: 'none',
-                scrollTrigger: {
-                    id: imgStId,
-                    trigger: gallery,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1
-                }
+            card.addEventListener('mouseenter', function () {
+                gsap.to(shell, {
+                    scale: 1.03,
+                    y: -10,
+                    duration: 0.4,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                });
+            });
+
+            card.addEventListener('mouseleave', function () {
+                gsap.to(shell, {
+                    scale: 1.0,
+                    y: 0,
+                    rotateX: 0,
+                    rotateY: 0,
+                    duration: 0.6,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                });
+            });
+
+            card.addEventListener('mousemove', function (e) {
+                var rect = card.getBoundingClientRect();
+                var x = e.clientX - rect.left - rect.width / 2;
+                var y = e.clientY - rect.top - rect.height / 2;
+                var tiltX = -(y / (rect.height / 2)) * 7;
+                var tiltY = (x / (rect.width / 2)) * 7;
+
+                gsap.to(shell, {
+                    rotateX: tiltX,
+                    rotateY: tiltY,
+                    transformPerspective: 1000,
+                    duration: 0.2,
+                    ease: 'power1.out',
+                    overwrite: 'auto'
+                });
             });
         });
 
-        // ── 4. Section Header Reveal ──
-        var header = gallery.querySelector('.parallax-gallery__header');
-        if (header) {
-            gsap.from(header, {
-                opacity: 0,
-                y: 40,
-                duration: 0.9,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: header,
-                    start: 'top 85%'
-                }
-            });
+        // Reveal CTA section right after
+        var ctaSection = document.querySelector('.showcase-cta-section');
+        if (ctaSection) {
+            var ctaBar = ctaSection.querySelector('.gallery-cta-bar');
+            if (ctaBar) {
+                gsap.from(ctaBar, {
+                    opacity: 0,
+                    y: 35,
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: ctaSection,
+                        start: 'top 85%',
+                        once: true
+                    }
+                });
+            }
         }
 
-        // ── 5. Integrated CTA Bar Entrance ──
-        var ctaBar = gallery.querySelector('.gallery-cta-bar');
-        if (ctaBar) {
-            gsap.from(ctaBar, {
-                opacity: 0,
-                y: 30,
-                duration: 0.85,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: ctaBar,
-                    start: 'top 90%'
-                }
-            });
-        }
-
-        console.log('[Interactions] Extreme 3D Parallax Culinary Gallery initialized (' + cards.length + ' cards)');
+        console.log('[Interactions] Apple-Style Horizontal Showcase initialized (' + cards.length + ' cards)');
     }
 
 
@@ -1100,13 +1105,13 @@
 
     /* ═══════════════════════════════════════════════════════
        13. MASTER INITIALIZATION BLOCK
-       Guarantees initParallaxGallery runs under DOMContentLoaded,
+       Guarantees initHorizontalShowcase runs under DOMContentLoaded,
        window load, and immediate execution if already interactive.
        ═══════════════════════════════════════════════════════ */
     function initMaster() {
         initVideoDivider();
         initChefSequence();
-        initParallaxGallery();
+        initHorizontalShowcase();
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
         }
