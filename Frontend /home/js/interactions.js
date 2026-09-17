@@ -229,7 +229,7 @@
         }
     }
 
-    // Initialize scroll reveals, dish showcase, video divider, chef sequence, and horizontal showcase after hero frames load
+    // Initialize scroll reveals, dish showcase, video divider, chef sequence, horizontal showcase, and footer animation after hero frames load
     document.addEventListener('praneetha:framesLoaded', function () {
         setTimeout(function () {
             initScrollReveals();
@@ -237,6 +237,7 @@
             initVideoDivider();
             initChefSequence();
             initHorizontalShowcase();
+            initFooterAnimation();
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.refresh();
             }
@@ -250,6 +251,7 @@
             initVideoDivider();
             initChefSequence();
             initHorizontalShowcase();
+            initFooterAnimation();
         }
     }, 8000);
 
@@ -334,43 +336,38 @@
 
 
     /* ═══════════════════════════════════════════════════════
-       7. DYNAMIC FOOTER HEIGHT & GAP MITIGATION
-       Measures the exact footer bounding rectangle and updates
-       the CSS custom property --footer-height so the main-content
-       curtain reveal is flush and seamless without any unwanted black void.
+       7. FOOTER STAGGER REVEAL ANIMATION
+       Staggers footer columns, brand, and bottom bar smoothly
+       when the footer enters the viewport in natural document flow.
        ═══════════════════════════════════════════════════════ */
-    var lastFooterHeight = 0;
-    function updateFooterHeight() {
-        var footer = document.getElementById('footer');
+    function initFooterAnimation() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+        var footer = document.querySelector('.footer');
         if (!footer) return;
 
-        var rect = footer.getBoundingClientRect();
-        var height = Math.ceil(rect.height || footer.offsetHeight || 420);
+        var oldFooterST = ScrollTrigger.getById('footer-stagger');
+        if (oldFooterST) oldFooterST.kill();
 
-        if (height > 0 && height !== lastFooterHeight) {
-            lastFooterHeight = height;
-            document.documentElement.style.setProperty('--footer-height', height + 'px');
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.refresh();
-            }
+        var footerElements = footer.querySelectorAll('.footer__brand, .footer__col, .footer__bottom');
+        if (!footerElements.length) {
+            footerElements = footer.querySelectorAll('.footer__inner > *');
         }
-    }
 
-    // Calculate on load and resize
-    updateFooterHeight();
-    window.addEventListener('resize', function () {
-        clearTimeout(updateFooterHeight._timer);
-        updateFooterHeight._timer = setTimeout(updateFooterHeight, 150);
-    });
-    window.addEventListener('load', updateFooterHeight);
-
-    // Modern ResizeObserver for zero-delay synchronization
-    var footerEl = document.getElementById('footer');
-    if (footerEl && typeof ResizeObserver !== 'undefined') {
-        var footerObserver = new ResizeObserver(function () {
-            updateFooterHeight();
+        gsap.from(footerElements, {
+            id: 'footer-stagger',
+            opacity: 0,
+            y: 35,
+            duration: 0.9,
+            stagger: 0.12,
+            ease: 'power3.out',
+            clearProps: 'all',
+            scrollTrigger: {
+                trigger: footer,
+                start: 'top 95%',
+                once: true
+            }
         });
-        footerObserver.observe(footerEl);
     }
 
 
@@ -916,9 +913,6 @@
         console.log('[Interactions] Chef Plating Sequence initialized with 3-part storytelling');
     }
 
-    initChefSequence();
-
-
     /* ═══════════════════════════════════════════════════════
        11. APPLE-STYLE HORIZONTAL SCROLL SHOWCASE
        
@@ -946,9 +940,11 @@
         var cards = track.querySelectorAll('.gallery-card');
         if (!cards.length) return;
 
-        // Clean up any existing trigger to avoid duplicate pin spaces
+        // Clean up any existing trigger and revert pin-spacer DOM
         var oldST = ScrollTrigger.getById('horizontal-showcase-pin');
-        if (oldST) oldST.kill();
+        if (oldST) {
+            oldST.kill(true);
+        }
 
         // Reveal header subtly when section scrolls into view
         var header = showcase.querySelector('.horizontal-header');
@@ -978,7 +974,7 @@
             return -(track.scrollWidth - window.innerWidth);
         }
 
-        // GSAP Pin + Scrub Timeline
+        // GSAP Pin + Scrub Timeline: Pin ends exactly when horizontal track finishes
         gsap.to(track, {
             x: getScrollAmount,
             ease: 'none',
@@ -986,7 +982,7 @@
                 id: 'horizontal-showcase-pin',
                 trigger: showcase,
                 start: 'top top',
-                end: () => '+=' + track.scrollWidth,
+                end: () => '+=' + Math.max(1, track.scrollWidth - window.innerWidth),
                 pin: true,
                 scrub: 1,
                 anticipatePin: 1,
@@ -1070,14 +1066,19 @@
         if (ctaSection) {
             var ctaBar = ctaSection.querySelector('.gallery-cta-bar');
             if (ctaBar) {
+                var oldCtaST = ScrollTrigger.getById('showcase-cta-entrance');
+                if (oldCtaST) oldCtaST.kill();
+
                 gsap.from(ctaBar, {
+                    id: 'showcase-cta-entrance',
                     opacity: 0,
-                    y: 35,
-                    duration: 0.9,
+                    y: 25,
+                    duration: 0.8,
                     ease: 'power3.out',
+                    clearProps: 'all',
                     scrollTrigger: {
                         trigger: ctaSection,
-                        start: 'top 85%',
+                        start: 'top 95%',
                         once: true
                     }
                 });
@@ -1112,8 +1113,15 @@
         initVideoDivider();
         initChefSequence();
         initHorizontalShowcase();
+        initFooterAnimation();
         if (typeof ScrollTrigger !== 'undefined') {
             ScrollTrigger.refresh();
+            setTimeout(function () {
+                ScrollTrigger.refresh();
+            }, 100);
+            setTimeout(function () {
+                ScrollTrigger.refresh();
+            }, 350);
         }
     }
 
@@ -1124,9 +1132,12 @@
         initMaster();
     }
 
-    // Refresh on full window load to ensure all images and fonts are accounted for
+    // Refresh on full window load to ensure all images, canvas buffers, and fonts are accounted for
     window.addEventListener('load', function () {
         initMaster();
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+        }
         setTimeout(function () {
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.refresh();

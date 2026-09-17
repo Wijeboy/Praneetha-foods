@@ -28,7 +28,7 @@
     <!-- ═══════════════════════════════════════════════════════════
          STYLESHEET
          ═══════════════════════════════════════════════════════════ -->
-    <link rel="stylesheet" href="css/style.css?v=3.4">
+    <link rel="stylesheet" href="css/style.css?v=3.7">
 </head>
 
 <body class="is-loading">
@@ -1140,15 +1140,15 @@
         </section>
 
         <!-- Sleek Integrated CTA Bar (anchored directly before footer reveal) -->
-        <section class="showcase-cta-section" id="cta" aria-label="Order Online">
+        <section class="showcase-cta-section" id="cta" aria-label="Reserve a Table">
             <div class="gallery-cta-bar">
                 <div class="gallery-cta-bar__content">
-                    <h3 class="gallery-cta-bar__title">Ready to Taste the <span class="text-gradient">Tradition</span>?</h3>
-                    <p class="gallery-cta-bar__desc">Order your favourite Sri Lankan dishes delivered hot & fresh to your doorstep.</p>
+                    <h3 class="gallery-cta-bar__title">EXPERIENCE THE <span class="text-gradient">LIVING FLAME</span></h3>
+                    <p class="gallery-cta-bar__desc">Step into our heritage kitchen. Secure your table for an unforgettable culinary journey and experience the true essence of Sri Lankan village cooking.</p>
                 </div>
                 <div class="magnetic-wrap" id="magneticWrap">
-                    <button class="magnetic-btn" id="magneticBtn" type="button">
-                        <span class="magnetic-btn__text">Order Now</span>
+                    <button class="magnetic-btn" id="magneticBtn" type="button" aria-label="Reserve a Table">
+                        <span class="magnetic-btn__text">Reserve a Table</span>
                         <span class="magnetic-btn__glow" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -1159,13 +1159,12 @@
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         FOOTER — REVEAL ON SCROLL
+         FOOTER — GSAP STAGGER REVEAL IN DOCUMENT FLOW
          
-         The footer is position: fixed at the bottom with z-index: 0.
-         The <main> has z-index: 1 and a solid background, plus an
-         ::after spacer equal to the footer height. As the user
-         scrolls past the CTA, the main content slides up to
-         reveal the footer underneath — like lifting a curtain.
+         The footer sits naturally in the document flow (position: relative)
+         without any pin-spacer collision. GSAP ScrollTrigger applies
+         a smooth staggered reveal to brand, nav columns, contact info,
+         and copyright bar as it enters the viewport.
          ═══════════════════════════════════════════════════════════ -->
     <footer id="footer" class="footer" role="contentinfo">
         <div class="footer__inner">
@@ -1293,7 +1292,7 @@
     <script src="js/preloader.js"></script>
     <script src="js/scroll-engine.js"></script>
     <script src="js/bento-tilt.js"></script>
-    <script src="js/interactions.js?v=3.4"></script>
+    <script src="js/interactions.js?v=3.7"></script>
 
 </body>
 
